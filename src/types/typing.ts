@@ -62,8 +62,11 @@ export interface PracticeSettings {
   includePunctuation: boolean
   includeNumbers: boolean
   soundEnabled: boolean
+  soundProfile?: 'mechanical' | 'clicky' | 'tactile' | 'typewriter' | 'bubble'
+  soundVolume?: number
   blindMode: boolean
   keyboardLayout: 'qwerty' | 'dvorak' | 'colemak'
   showLiveKeyboard: boolean
   theme: 'light' | 'dark' | 'system'
 }
+

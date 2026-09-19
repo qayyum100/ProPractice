@@ -8,6 +8,8 @@ const DEFAULT_SETTINGS: PracticeSettings = {
   includePunctuation: true,
   includeNumbers: false,
   soundEnabled: true,
+  soundProfile: 'mechanical',
+  soundVolume: 0.6,
   blindMode: false,
   keyboardLayout: 'qwerty',
   showLiveKeyboard: true,

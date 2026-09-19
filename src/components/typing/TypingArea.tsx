@@ -37,6 +37,7 @@ export const TypingArea: React.FC<TypingAreaProps> = ({
 
   // Keep focus locked to typing area
   const focusInput = () => {
+    soundFx.unlock()
     if (inputRef.current && !disabled) {
       inputRef.current.focus()
       setIsFocused(true)
@@ -59,6 +60,7 @@ export const TypingArea: React.FC<TypingAreaProps> = ({
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (disabled) return
+    soundFx.unlock()
 
     // Quick restart shortcut: Tab + Enter
     if (e.key === 'Tab') {
@@ -71,7 +73,7 @@ export const TypingArea: React.FC<TypingAreaProps> = ({
       const result = engine.handleKeyDown('', true)
       setCharStates(engine.getCharacterStates())
       onMetricsUpdate(result.metrics)
-      soundFx.playKeyClick()
+      soundFx.playKeyClick('Backspace')
       return
     }
 
@@ -88,7 +90,7 @@ export const TypingArea: React.FC<TypingAreaProps> = ({
       if (lastState === 'incorrect' || lastState === 'extra') {
         soundFx.playErrorSound()
       } else {
-        soundFx.playKeyClick()
+        soundFx.playKeyClick(e.key)
       }
 
       if (result.isCompleted) {

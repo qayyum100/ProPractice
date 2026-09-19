@@ -19,8 +19,12 @@ import {
   BookOpen,
   Terminal,
   Quote,
-  RefreshCw
+  RefreshCw,
+  Volume2,
+  VolumeX,
+  Music
 } from 'lucide-react'
+import { soundFx, SoundProfile } from '../lib/sound'
 
 export const PracticeHubPage: React.FC = () => {
   const location = useLocation()
@@ -39,6 +43,7 @@ export const PracticeHubPage: React.FC = () => {
   const [textSeed, setTextSeed] = useState<number>(0) // bump to regenerate text
   const [sessionActive, setSessionActive] = useState<boolean>(false)
   const [timeExpired, setTimeExpired] = useState<boolean>(false)
+  const [soundMenuOpen, setSoundMenuOpen] = useState<boolean>(false)
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   // Determine practice text
@@ -225,6 +230,90 @@ export const PracticeHubPage: React.FC = () => {
             >
               <RefreshCw className="w-4 h-4" />
             </button>
+
+            {/* Sound FX & Switch Profile Selector */}
+            <div className="relative">
+              <button
+                onClick={() => setSoundMenuOpen(!soundMenuOpen)}
+                className={`p-2 rounded-xl border transition-colors flex items-center gap-1.5 ${
+                  settings.soundEnabled
+                    ? 'bg-sky-50 dark:bg-sky-950/60 border-sky-300 dark:border-sky-800 text-sky-600 dark:text-sky-300'
+                    : 'bg-white dark:bg-[#18181f] border-neutral-200 dark:border-neutral-800 text-neutral-500'
+                }`}
+                title="Keystroke Sound FX & Switch Profiles"
+              >
+                {settings.soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
+                <span className="hidden sm:inline text-xs font-semibold capitalize">
+                  {settings.soundEnabled ? (settings.soundProfile || 'mechanical') : 'Muted'}
+                </span>
+              </button>
+
+              {soundMenuOpen && (
+                <>
+                  <div
+                    className="fixed inset-0 z-30"
+                    onClick={() => setSoundMenuOpen(false)}
+                  />
+                  <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-[#18181f] border border-neutral-200 dark:border-neutral-800 rounded-2xl shadow-xl p-3 z-40 animate-slide-up space-y-3">
+                    <div className="flex items-center justify-between pb-2 border-b border-neutral-100 dark:border-neutral-800">
+                      <div className="flex items-center gap-2">
+                        <Music className="w-4 h-4 text-sky-500" />
+                        <span className="text-xs font-bold text-neutral-900 dark:text-white">Keystroke Sound</span>
+                      </div>
+                      <button
+                        onClick={() => {
+                          const next = !settings.soundEnabled
+                          updateSettings({ soundEnabled: next })
+                          if (next) soundFx.playKeyClick(' ')
+                        }}
+                        className={`px-2 py-0.5 rounded-lg text-xs font-bold ${
+                          settings.soundEnabled
+                            ? 'bg-sky-500 text-white'
+                            : 'bg-neutral-200 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400'
+                        }`}
+                      >
+                        {settings.soundEnabled ? 'ON' : 'OFF'}
+                      </button>
+                    </div>
+
+                    <div className="space-y-1">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-400">Switch Profile</span>
+                      {[
+                        { id: 'mechanical', label: 'Mechanical Thock', desc: 'Creamy lubed linear switch' },
+                        { id: 'clicky', label: 'Clicky Blue', desc: 'Tactile snap & sharp click' },
+                        { id: 'tactile', label: 'Tactile Brown', desc: 'Balanced tactile bump' },
+                        { id: 'typewriter', label: 'Typewriter', desc: 'Vintage metal key strike' },
+                        { id: 'bubble', label: 'Bubble Pop', desc: 'Satisfying water droplet' },
+                      ].map((item) => {
+                        const isSelected = (settings.soundProfile || 'mechanical') === item.id
+                        return (
+                          <button
+                            key={item.id}
+                            onClick={() => {
+                              updateSettings({ soundProfile: item.id as SoundProfile, soundEnabled: true })
+                              soundFx.setProfile(item.id as SoundProfile)
+                              soundFx.setEnabled(true)
+                              soundFx.playKeyClick(' ')
+                            }}
+                            className={`w-full text-left px-2.5 py-1.5 rounded-xl transition-all flex items-center justify-between ${
+                              isSelected
+                                ? 'bg-sky-500/10 text-sky-600 dark:text-sky-400 font-semibold border border-sky-500/20'
+                                : 'text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800'
+                            }`}
+                          >
+                            <div>
+                              <div className="text-xs">{item.label}</div>
+                              <div className="text-[10px] text-neutral-400 dark:text-neutral-500">{item.desc}</div>
+                            </div>
+                            {isSelected && <span className="w-2 h-2 rounded-full bg-sky-500" />}
+                          </button>
+                        )
+                      })}
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
 
             {/* Keyboard Visualization Toggle */}
             <button

@@ -31,8 +31,14 @@ export const TypingSessionProvider: React.FC<{ children: React.ReactNode }> = ({
   const [activeNotification, setActiveNotification] = useState<{ title: string; message: string; icon?: string } | null>(null)
 
   useEffect(() => {
-    soundFx.setEnabled(settings.soundEnabled)
-  }, [settings.soundEnabled])
+    soundFx.setEnabled(settings.soundEnabled ?? true)
+    if (settings.soundProfile) {
+      soundFx.setProfile(settings.soundProfile)
+    }
+    if (typeof settings.soundVolume === 'number') {
+      soundFx.setVolume(settings.soundVolume)
+    }
+  }, [settings.soundEnabled, settings.soundProfile, settings.soundVolume])
 
   const updateSettings = (newSettings: Partial<PracticeSettings>) => {
     const updated = storage.saveSettings(newSettings)
