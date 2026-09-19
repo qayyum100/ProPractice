@@ -84,11 +84,17 @@ export const LiveRoomPage: React.FC = () => {
               isFinished: myMetrics.progressPercent >= 100
             }
           }
-          // Opponents progress naturally
+          // Opponents progress naturally with randomized WPM drift
           if (p.isFinished) return p
-          const addedProgress = Math.min(100, p.progress + (p.wpm / 60) * 1.5)
+          
+          // Drift WPM organically (simulate bursting and pausing)
+          const drift = (Math.random() * 12) - 6
+          const newWpm = Math.max(40, Math.min(160, p.wpm + drift))
+          
+          const addedProgress = Math.min(100, p.progress + (newWpm / 60) * 1.5)
           return {
             ...p,
+            wpm: Math.round(newWpm),
             progress: Math.round(addedProgress),
             isFinished: addedProgress >= 100
           }

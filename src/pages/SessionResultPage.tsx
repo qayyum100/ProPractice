@@ -12,6 +12,7 @@ import { Button } from '../components/ui/Button'
 import { Badge } from '../components/ui/Badge'
 import { generateSessionCoachFeedback } from '../lib/gemini'
 import { AICoachFeedback } from '../types/ai'
+import confetti from 'canvas-confetti'
 import {
   Sparkles,
   RotateCcw,
@@ -32,6 +33,13 @@ export const SessionResultPage: React.FC = () => {
   useEffect(() => {
     if (!result) return
     let isCancelled = false
+    
+    // Trigger popper animation on mount when there's a result
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { y: 0.6 }
+    })
 
     generateSessionCoachFeedback({
       netWpm: result.netWpm,

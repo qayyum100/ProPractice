@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230284c7'><rect width='24' height='24' rx='6'/><text x='12' y='17' font-size='14' font-weight='bold' fill='white' text-anchor='middle'>P</text></svg>" />
@@ -7,6 +7,19 @@
     <title>Practice — Adaptive Typing & English Learning Platform</title>
     <meta name="description" content="Build typing speed, precision, vocabulary breadth, and developer English skills through adaptive personalized practice and real-time AI coaching." />
     
+    <!-- Zero-flash theme detection: runs synchronously before render -->
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem('practice_theme');
+          var isDark = saved === 'dark' || (!saved) || (saved === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          if (isDark) document.documentElement.classList.add('dark');
+        } catch(e) {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
+
     <!-- Preconnect Google Fonts for Inter & JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

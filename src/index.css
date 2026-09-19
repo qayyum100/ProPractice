@@ -13,6 +13,7 @@
   --char-incorrect: #ef4444;
   --char-pending: #a1a1aa;
   --caret-color: #0284c7;
+  color-scheme: light;
 }
 
 .dark {
@@ -28,6 +29,7 @@
   --char-incorrect: #f87171;
   --char-pending: #52525b;
   --caret-color: #38bdf8;
+  color-scheme: dark;
 }
 
 body {
@@ -38,6 +40,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
   letter-spacing: -0.011em;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 ::selection {

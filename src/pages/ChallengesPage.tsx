@@ -14,56 +14,18 @@ import {
   Globe
 } from 'lucide-react'
 
-interface RoomListing {
-  id: string
-  code: string
-  title: string
-  hostName: string
-  duration: number
-  participantsCount: number
-  maxParticipants: number
-  status: 'waiting' | 'in_progress'
-}
-
-const SAMPLE_ROOMS: RoomListing[] = [
-  {
-    id: 'room_1',
-    code: 'SPEED9',
-    title: '60-Second Developer Sprint',
-    hostName: 'DevLead_Alex',
-    duration: 60,
-    participantsCount: 3,
-    maxParticipants: 8,
-    status: 'waiting'
-  },
-  {
-    id: 'room_2',
-    code: 'LEXICON',
-    title: 'Advanced English Vocabulary Race',
-    hostName: 'Sarah_Writer',
-    duration: 90,
-    participantsCount: 2,
-    maxParticipants: 6,
-    status: 'waiting'
-  },
-  {
-    id: 'room_3',
-    code: 'PUNCT',
-    title: 'Punctuation Precision Master',
-    hostName: 'Elena_K',
-    duration: 45,
-    participantsCount: 4,
-    maxParticipants: 8,
-    status: 'waiting'
-  }
-]
+import { useAuth } from '../context/AuthContext'
+import { storage } from '../lib/storage'
 
 export const ChallengesPage: React.FC = () => {
   const navigate = useNavigate()
+  const { profile } = useAuth()
   const [roomCodeInput, setRoomCodeInput] = useState<string>('')
   const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false)
   const [newRoomTitle, setNewRoomTitle] = useState<string>('')
   const [newRoomDuration, setNewRoomDuration] = useState<number>(60)
+  
+  const activeRooms = React.useMemo(() => storage.getRooms(), [])
 
   const handleJoinByCode = (e: React.FormEvent) => {
     e.preventDefault()
@@ -73,6 +35,19 @@ export const ChallengesPage: React.FC = () => {
 
   const handleCreateRoom = () => {
     const generatedCode = 'ROOM' + Math.floor(10 + Math.random() * 90)
+    
+    // Save the new room to local storage so it persists in the list
+    storage.saveRoom({
+      id: `room_${Date.now()}`,
+      code: generatedCode,
+      title: newRoomTitle || 'Custom Challenge Room',
+      hostName: profile?.fullName || 'Anonymous',
+      duration: newRoomDuration,
+      participantsCount: 1,
+      maxParticipants: 8,
+      status: 'waiting'
+    })
+    
     setIsCreateModalOpen(false)
     navigate(`/rooms/${generatedCode}`, {
       state: {
@@ -146,12 +121,12 @@ export const ChallengesPage: React.FC = () => {
               </h3>
             </div>
             <span className="text-xs font-semibold text-neutral-400">
-              {SAMPLE_ROOMS.length} active rooms waiting
+              {activeRooms.length} active rooms waiting
             </span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {SAMPLE_ROOMS.map((room) => (
+            {activeRooms.map((room) => (
               <div
                 key={room.id}
                 className="p-6 rounded-3xl bg-white dark:bg-[#121216] border border-neutral-200 dark:border-[#22222a] shadow-sm flex flex-col justify-between space-y-4 hover:border-neutral-300 dark:hover:border-neutral-700 transition-all"

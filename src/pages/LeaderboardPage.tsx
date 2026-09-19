@@ -4,31 +4,48 @@ import { useAuth } from '../context/AuthContext'
 import { Tabs } from '../components/ui/Tabs'
 import { Medal, Crown, Flame, Award } from 'lucide-react'
 
-interface LeaderboardUser {
-  rank: number
-  userId: string
-  name: string
-  username: string
-  wpm: number
-  accuracy: number
-  level: number
-  xp: number
-  streak: number
-}
-
-const GLOBAL_LEADERBOARD: LeaderboardUser[] = [
-  { rank: 1, userId: 'u1', name: 'Marcus Vance', username: 'mvance', wpm: 124, accuracy: 99.4, level: 10, xp: 24500, streak: 42 },
-  { rank: 2, userId: 'u2', name: 'Elena Rostova', username: 'elena_r', wpm: 118, accuracy: 98.9, level: 9, xp: 19800, streak: 31 },
-  { rank: 3, userId: 'u3', name: 'Devon Thorne', username: 'dthorne', wpm: 112, accuracy: 99.1, level: 9, xp: 18200, streak: 28 },
-  { rank: 4, userId: 'u4', name: 'Qayyum Razac', username: 'qayyum', wpm: 84, accuracy: 98.2, level: 6, xp: 4200, streak: 3 },
-  { rank: 5, userId: 'u5', name: 'Samantha Wu', username: 'sam_wu', wpm: 79, accuracy: 97.5, level: 5, xp: 3400, streak: 12 },
-  { rank: 6, userId: 'u6', name: 'Lucas Meyer', username: 'lmeyer', wpm: 76, accuracy: 96.8, level: 4, xp: 2800, streak: 7 },
-  { rank: 7, userId: 'u7', name: 'Aria Patel', username: 'aria_p', wpm: 72, accuracy: 98.0, level: 4, xp: 2200, streak: 15 },
-]
+import { useTypingSession } from '../context/TypingSessionContext'
+import { storage, LeaderboardUser } from '../lib/storage'
 
 export const LeaderboardPage: React.FC = () => {
   const { profile } = useAuth()
+  const { userStats } = useTypingSession()
   const [filter, setFilter] = useState<string>('speed')
+
+  const GLOBAL_LEADERBOARD = React.useMemo(() => {
+    const seedUsers = storage.getLeaderboard()
+    
+    // Create the current user's leaderboard profile based on actual stats
+    const me: LeaderboardUser = {
+      rank: 0,
+      userId: profile?.id || 'me',
+      name: profile?.fullName || 'Anonymous',
+      username: profile?.username || 'anonymous',
+      wpm: userStats.topWpm || 0,
+      accuracy: userStats.avgAccuracy || 0,
+      level: userStats.currentLevel || 1,
+      xp: userStats.totalXp || 0,
+      streak: userStats.currentStreak || 0
+    }
+    
+    // Only add if not already in the list (e.g. mock Qayyum might be replaced)
+    let combined = seedUsers.filter(u => u.username !== me.username)
+    combined.push(me)
+    
+    // Sort based on filter
+    combined.sort((a, b) => {
+      switch (filter) {
+        case 'speed': return b.wpm - a.wpm
+        case 'accuracy': return b.accuracy - a.accuracy
+        case 'xp': return b.xp - a.xp
+        case 'streak': return b.streak - a.streak
+        default: return b.wpm - a.wpm
+      }
+    })
+    
+    // Reassign ranks
+    return combined.map((u, i) => ({ ...u, rank: i + 1 }))
+  }, [profile, userStats, filter])
 
   return (
     <div className="py-8 sm:py-12 space-y-10">
@@ -135,12 +152,12 @@ export const LeaderboardPage: React.FC = () => {
               </thead>
               <tbody className="divide-y divide-neutral-100 dark:divide-neutral-800 text-xs sm:text-sm">
                 {GLOBAL_LEADERBOARD.map((u) => {
-                  const isMe = u.username === (profile?.username || 'qayyum')
+                  const isMe = u.userId === (profile?.id || 'me')
                   return (
                     <tr
                       key={u.userId}
                       className={`hover:bg-neutral-50/60 dark:hover:bg-neutral-800/40 transition-colors ${
-                        isMe ? 'bg-sky-50/50 dark:bg-sky-950/20 font-semibold' : ''
+                        isMe ? 'bg-sky-50/50 dark:bg-sky-950/20 font-semibold border-l-2 border-sky-500' : ''
                       }`}
                     >
                       <td className="py-3.5 px-3 font-mono font-bold text-neutral-500">
