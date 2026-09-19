@@ -180,6 +180,24 @@ export class TypingEngine {
       ? Math.min(100, Math.round((this.inputBuffer.length / this.targetText.length) * 100))
       : 0
 
+    let lastKeystroke: LiveTypingMetrics['lastKeystroke'] = undefined
+    if (this.keystrokeLog.length > 0) {
+      const last = this.keystrokeLog[this.keystrokeLog.length - 1]
+      let displayKey = last.key
+      if (last.key === ' ') displayKey = '␣ Space'
+      else if (last.key === 'Enter') displayKey = '↵ Enter'
+      else if (last.key === 'Backspace') displayKey = '⌫ Back'
+      else if (last.key === 'Tab') displayKey = '⇥ Tab'
+
+      lastKeystroke = {
+        key: last.key,
+        displayKey,
+        isError: last.isError,
+        isBackspace: last.isBackspace,
+        timestamp: last.timestamp
+      }
+    }
+
     return {
       grossWpm,
       netWpm,
@@ -191,7 +209,8 @@ export class TypingEngine {
       extraChars: Math.max(0, inputChars.length - targetChars.length),
       backspaceCount: this.backspaceCount,
       consistencyScore,
-      progressPercent
+      progressPercent,
+      lastKeystroke
     }
   }
 

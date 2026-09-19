@@ -26,6 +26,8 @@ export const LiveMetrics: React.FC<LiveMetricsProps> = ({
 
   const timeIsLow = timerPercent !== null && timerPercent <= 15
 
+  const lastKey = metrics.lastKeystroke
+
   return (
     <div className="w-full space-y-3">
       {/* Timer progress bar */}
@@ -38,7 +40,7 @@ export const LiveMetrics: React.FC<LiveMetricsProps> = ({
         </div>
       )}
 
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 py-3 px-1">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 py-3 px-1 items-start">
         {/* Time */}
         <div className="flex flex-col">
           <span className="text-[11px] font-semibold uppercase tracking-wider text-neutral-400 dark:text-neutral-500">
@@ -96,6 +98,39 @@ export const LiveMetrics: React.FC<LiveMetricsProps> = ({
               <span className="text-xs font-mono font-semibold text-red-500 bg-red-50 dark:bg-red-950/40 px-1.5 py-0.5 rounded">
                 {metrics.incorrectChars} err
               </span>
+            )}
+          </div>
+        </div>
+
+        {/* Last Keystroke (Live) - exact position in right space */}
+        <div className="flex flex-col">
+          <div className="flex items-center gap-1.5">
+            <span className="text-[11px] font-semibold uppercase tracking-wider text-neutral-400 dark:text-neutral-500">
+              Last Key
+            </span>
+            <span className="inline-flex items-center px-1.5 py-0.5 text-[9px] font-extrabold uppercase tracking-wider rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+              Live
+            </span>
+          </div>
+          <div className="flex items-center mt-0.5">
+            {lastKey ? (
+              <div
+                key={lastKey.timestamp}
+                className={`inline-flex items-center justify-center min-w-[3.25rem] px-2.5 h-10 rounded-xl font-mono font-bold text-lg sm:text-xl shadow-xs border transition-all duration-100 ${
+                  lastKey.isError
+                    ? 'bg-red-500/10 dark:bg-red-950/50 text-red-600 dark:text-red-400 border-red-300 dark:border-red-800'
+                    : lastKey.isBackspace
+                    ? 'bg-amber-500/10 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400 border-amber-300 dark:border-amber-800'
+                    : 'bg-sky-500/10 dark:bg-sky-950/50 text-sky-600 dark:text-sky-300 border-sky-300 dark:border-sky-800'
+                }`}
+                title={`Last keystroke: ${lastKey.key} (${lastKey.isError ? 'Error' : 'Correct'})`}
+              >
+                {lastKey.displayKey}
+              </div>
+            ) : (
+              <div className="inline-flex items-center justify-center min-w-[3.25rem] px-2.5 h-10 rounded-xl font-mono font-bold text-lg sm:text-xl border border-dashed border-neutral-200 dark:border-neutral-800 text-neutral-300 dark:text-neutral-600">
+                —
+              </div>
             )}
           </div>
         </div>

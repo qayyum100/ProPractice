@@ -26,6 +26,13 @@ export interface LiveTypingMetrics {
   backspaceCount: number
   consistencyScore: number // 0-100% based on std deviation of intervals
   progressPercent: number
+  lastKeystroke?: {
+    key: string
+    displayKey: string
+    isError: boolean
+    isBackspace: boolean
+    timestamp: number
+  }
 }
 
 export interface CompletedSessionResult {
