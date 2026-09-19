@@ -55,25 +55,36 @@ export const LoginPage: React.FC = () => {
 
         {/* Demo Fast Logins Banner */}
         <div className="p-4 rounded-2xl bg-sky-50/70 dark:bg-sky-950/20 border border-sky-200/80 dark:border-sky-800/40 space-y-2.5">
-          <div className="flex items-center gap-1.5 text-xs font-bold text-sky-700 dark:text-sky-300">
-            <Zap className="w-3.5 h-3.5 text-amber-500" />
-            <span>Instant Demo Sign-In</span>
+          <div className="flex items-center justify-between text-xs font-bold text-sky-700 dark:text-sky-300">
+            <div className="flex items-center gap-1.5">
+              <Zap className="w-3.5 h-3.5 text-amber-500" />
+              <span>Instant 1-Click Demo Sign-In</span>
+            </div>
+            <span className="text-[10px] font-normal text-sky-600 dark:text-sky-400">Click to switch accounts</span>
           </div>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+            <button
+              type="button"
+              onClick={() => handleQuickDemoLogin('qayyum@practice.dev')}
+              className="px-3 py-2 rounded-xl bg-white dark:bg-[#16161c] border border-sky-200 dark:border-sky-800 text-left hover:border-sky-400 hover:shadow-sm transition-all text-xs cursor-pointer"
+            >
+              <div className="font-semibold text-neutral-900 dark:text-white truncate">Qayyum Razac</div>
+              <div className="text-[10px] text-neutral-400 font-mono">84 WPM · Level 6</div>
+            </button>
             <button
               type="button"
               onClick={() => handleQuickDemoLogin('prodigy@practice.app')}
-              className="px-3 py-2 rounded-xl bg-white dark:bg-[#16161c] border border-sky-200 dark:border-sky-800 text-left hover:border-sky-400 transition-all text-xs"
+              className="px-3 py-2 rounded-xl bg-white dark:bg-[#16161c] border border-sky-200 dark:border-sky-800 text-left hover:border-sky-400 hover:shadow-sm transition-all text-xs cursor-pointer"
             >
-              <div className="font-semibold text-neutral-900 dark:text-white">Pro Engineer</div>
+              <div className="font-semibold text-neutral-900 dark:text-white truncate">Alex Vance</div>
               <div className="text-[10px] text-neutral-400 font-mono">112 WPM · Level 9</div>
             </button>
             <button
               type="button"
               onClick={() => handleQuickDemoLogin('learner@practice.app')}
-              className="px-3 py-2 rounded-xl bg-white dark:bg-[#16161c] border border-sky-200 dark:border-sky-800 text-left hover:border-sky-400 transition-all text-xs"
+              className="px-3 py-2 rounded-xl bg-white dark:bg-[#16161c] border border-sky-200 dark:border-sky-800 text-left hover:border-sky-400 hover:shadow-sm transition-all text-xs cursor-pointer"
             >
-              <div className="font-semibold text-neutral-900 dark:text-white">Growth Learner</div>
+              <div className="font-semibold text-neutral-900 dark:text-white truncate">Elena Growth</div>
               <div className="text-[10px] text-neutral-400 font-mono">68 WPM · Level 4</div>
             </button>
           </div>
