@@ -78,7 +78,7 @@ const HeroTypingDemo: React.FC = () => {
       </div>
 
       {/* Typing area */}
-      <div className="p-6 sm:p-10 font-mono text-xl sm:text-2xl md:text-3xl leading-relaxed tracking-wide min-h-[120px]">
+      <div className="p-4 sm:p-6 md:p-10 font-mono text-base sm:text-xl md:text-2xl leading-relaxed tracking-wide min-h-[100px] overflow-hidden">
         {TYPING_DEMO_TEXT.split('').map((char, i) => {
           if (i < charIndex) {
             return <span key={i} className="text-emerald-400">{char}</span>
@@ -173,8 +173,8 @@ export const LandingPage: React.FC = () => {
               as="p"
               by="word"
               variant="fadeUp"
-              staggerDelay={20}
-              duration={500}
+              staggerDelay={12}
+              duration={450}
               delay={680}
               onScroll={false}
               className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto leading-relaxed"
@@ -196,7 +196,7 @@ export const LandingPage: React.FC = () => {
         </div>
 
         {/* Live typing demo */}
-        <div className="max-w-5xl mx-auto animate-slide-up">
+        <div className="max-w-5xl mx-auto animate-slide-up overflow-hidden">
           <HeroTypingDemo />
         </div>
       </Container>

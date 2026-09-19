@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react'
+import React, { Suspense, useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { ThemeProvider } from './context/ThemeContext'
 import { AuthProvider } from './context/AuthContext'
@@ -52,6 +52,17 @@ const NotificationToast: React.FC = () => {
 }
 
 function App() {
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window === 'undefined') return false
+    return window.innerWidth < 768 || ('ontouchstart' in window)
+  })
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768 || ('ontouchstart' in window))
+    window.addEventListener('resize', check, { passive: true })
+    return () => window.removeEventListener('resize', check)
+  }, [])
+
   return (
     <ErrorBoundary>
       <ThemeProvider>
@@ -59,17 +70,17 @@ function App() {
           <TypingSessionProvider>
             <BrowserRouter>
               <div className="min-h-screen flex flex-col justify-between bg-transparent text-[#1d1d1f] dark:text-[#f5f5f7] transition-colors relative">
-              <ColorBends
-                color="#A855F7"
-                speed={0.2}
-                frequency={1.0}
-                noise={0.15}
-                bandWidth={0.13}
-                rotation={90}
-                fadeTop={0.75}
-                iterations={1}
-                intensity={1.3}
-              />
+              {/* ColorBends: desktop only — too heavy for mobile */}
+              {!isMobile && (
+                <ColorBends
+                  color="#A855F7"
+                  speed={0.2}
+                  frequency={1.0}
+                  rotation={90}
+                  fadeTop={0.75}
+                  intensity={1.3}
+                />
+              )}
               <Header />
               <main className="flex-1 relative z-10 flex flex-col">
                 <Suspense fallback={
@@ -102,28 +113,30 @@ function App() {
               </main>
               <Footer />
               <NotificationToast />
-              
-              <div className="fixed inset-0 z-50 pointer-events-none overflow-hidden">
-                <GlowCursor
-                  color="#67E8F9"
-                  secondaryColor="#A78BFA"
-                  trailLength={40}
-                  trailWidth={8}
-                  trailTaper={0.8}
-                  followSpeed={0.16}
-                  glowIntensity={1.9}
-                  glowSpread={1.2}
-                  hotspot={0.65}
-                  brightness={1.25}
-                  opacity={1}
-                  pulseSpeed={1.1}
-                  noiseStrength={0.035}
-                  idleFade
-                  idleTimeout={700}
-                  fadeDuration={900}
-                  blendMode="screen"
-                />
-              </div>
+              {/* GlowCursor: desktop/pointer devices only — useless on touch */}
+              {!isMobile && (
+                <div className="fixed inset-0 z-50 pointer-events-none overflow-hidden">
+                  <GlowCursor
+                    color="#67E8F9"
+                    secondaryColor="#A78BFA"
+                    trailLength={40}
+                    trailWidth={8}
+                    trailTaper={0.8}
+                    followSpeed={0.16}
+                    glowIntensity={1.9}
+                    glowSpread={1.2}
+                    hotspot={0.65}
+                    brightness={1.25}
+                    opacity={1}
+                    pulseSpeed={1.1}
+                    noiseStrength={0.035}
+                    idleFade
+                    idleTimeout={700}
+                    fadeDuration={900}
+                    blendMode="screen"
+                  />
+                </div>
+              )}
             </div>
           </BrowserRouter>
         </TypingSessionProvider>

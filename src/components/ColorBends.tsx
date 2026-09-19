@@ -17,100 +17,100 @@ export const ColorBends: React.FC<ColorBendsProps> = ({
   color = '#A855F7',
   speed = 0.2,
   frequency = 1.0,
-  noise = 0.15,
-  bandWidth = 0.13,
   rotation = 90,
   fadeTop = 0.75,
-  iterations = 1,
   intensity = 1.3,
   className = '',
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  // A basic mock implementation to simulate a fluid gradient background 
-  // since the real WebGL shader source from React Bits was unavailable.
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    
+
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
-    
+
     let animationId: number;
     let time = 0;
-    
-    const render = () => {
-      time += speed * 0.05;
-      
-      const width = canvas.width = window.innerWidth;
-      const height = canvas.height = window.innerHeight;
-      
-      // Simulate gradient bends
-      const gradient = ctx.createLinearGradient(
-        0, 
-        0, 
-        Math.cos(rotation * (Math.PI / 180)) * width, 
-        Math.sin(rotation * (Math.PI / 180)) * height
-      );
-      
-      gradient.addColorStop(0, '#0a0a0c'); // Dark background
-      
-      // Add the highlight color moving based on time
-      const offset = (Math.sin(time * frequency) + 1) / 2;
-      gradient.addColorStop(offset, color);
-      
-      gradient.addColorStop(1, '#0a0a0c');
-      
-      ctx.fillStyle = gradient;
-      ctx.globalAlpha = intensity / 2;
-      ctx.fillRect(0, 0, width, height);
-      
-      // Add a simple grain/noise layer if requested
-      if (noise > 0) {
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.02)';
-        for (let i = 0; i < height; i += 4) {
-          for (let j = 0; j < width; j += 4) {
-            if (Math.random() < noise) {
-              ctx.fillRect(j, i, 2, 2);
-            }
-          }
-        }
-      }
-      
+    let lastRender = 0;
+    // Throttle to ~20fps on mobile, ~30fps on desktop for huge perf gain
+    const isMobile = window.innerWidth < 768;
+    const FPS_LIMIT = isMobile ? 20 : 30;
+    const FRAME_INTERVAL = 1000 / FPS_LIMIT;
+
+    const resize = () => {
+      // Render at half resolution for performance, CSS scales it up
+      const dpr = Math.min(window.devicePixelRatio || 1, 1);
+      canvas.width = Math.round(window.innerWidth * dpr);
+      canvas.height = Math.round(window.innerHeight * dpr);
+    };
+    resize();
+
+    const render = (timestamp: number) => {
       animationId = requestAnimationFrame(render);
+
+      // Throttle framerate
+      if (timestamp - lastRender < FRAME_INTERVAL) return;
+      lastRender = timestamp;
+
+      time += speed * 0.05;
+
+      const width = canvas.width;
+      const height = canvas.height;
+      const rad = rotation * (Math.PI / 180);
+
+      // Clear with opaque background instead of accumulating
+      ctx.clearRect(0, 0, width, height);
+
+      const gradient = ctx.createLinearGradient(
+        0, 0,
+        Math.cos(rad) * width,
+        Math.sin(rad) * height
+      );
+
+      gradient.addColorStop(0, '#0a0a0c');
+      const offset = (Math.sin(time * frequency) + 1) / 2;
+      gradient.addColorStop(Math.max(0.01, Math.min(0.99, offset)), color);
+      gradient.addColorStop(1, '#0a0a0c');
+
+      ctx.globalAlpha = Math.min(intensity / 2, 0.65);
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, width, height);
+
+      // Fade-top gradient overlay — CSS-based, no JS loop needed
     };
-    
-    render();
-    
+
+    animationId = requestAnimationFrame(render);
+
+    let resizeTimer: ReturnType<typeof setTimeout>;
     const handleResize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(resize, 150);
     };
-    
-    window.addEventListener('resize', handleResize);
-    
+    window.addEventListener('resize', handleResize, { passive: true });
+
     return () => {
       cancelAnimationFrame(animationId);
+      clearTimeout(resizeTimer);
       window.removeEventListener('resize', handleResize);
     };
-  }, [color, speed, frequency, noise, rotation, intensity]);
+  }, [color, speed, frequency, rotation, intensity]);
 
   return (
-    <div 
+    <div
       className={`fixed inset-0 z-[-1] pointer-events-none overflow-hidden ${className}`}
-      style={{
-        opacity: 1 - fadeTop * 0.2 // basic fade approximation
-      }}
     >
-      <canvas 
-        ref={canvasRef} 
-        className="w-full h-full opacity-60"
+      <canvas
+        ref={canvasRef}
+        className="w-full h-full"
+        style={{ opacity: 0.55 }}
       />
-      {/* Fallback gradient if canvas fails */}
-      <div 
-        className="absolute inset-0 z-[-2] mix-blend-screen opacity-50"
+      {/* CSS fade-top mask — no JS cost */}
+      <div
+        className="absolute inset-0"
         style={{
-          background: `radial-gradient(circle at 50% 50%, ${color}20 0%, transparent 70%)`
+          background: `linear-gradient(to bottom, transparent ${Math.round(fadeTop * 100)}%, #0a0a0c 100%)`
         }}
       />
     </div>
