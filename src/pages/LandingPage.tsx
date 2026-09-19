@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Button } from '../components/ui/Button'
 import { Container } from '../components/layout/Container'
+import { StaggeredText } from '../components/StaggeredText'
 import {
   Sparkles,
   Zap,
@@ -144,14 +145,40 @@ export const LandingPage: React.FC = () => {
 
           <div className="space-y-4 max-w-4xl mx-auto">
             <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-neutral-900 dark:text-white leading-[1.05]">
-              Type better.<br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 via-indigo-500 to-sky-400">
-                Think faster.
-              </span>
+              <StaggeredText
+                text="Type better."
+                as="span"
+                by="word"
+                variant="fadeUp"
+                staggerDelay={80}
+                duration={600}
+                delay={100}
+                onScroll={false}
+                className="block"
+              />
+              <StaggeredText
+                text="Think faster."
+                as="span"
+                by="word"
+                variant="fadeUp"
+                staggerDelay={80}
+                duration={600}
+                delay={380}
+                onScroll={false}
+                className="block text-transparent bg-clip-text bg-gradient-to-r from-sky-500 via-indigo-500 to-sky-400"
+              />
             </h1>
-            <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto leading-relaxed">
-              Build professional typing speed, neuromuscular accuracy, vocabulary breadth, and developer English through adaptive, data-driven daily practice.
-            </p>
+            <StaggeredText
+              text="Build professional typing speed, neuromuscular accuracy, vocabulary breadth, and developer English through adaptive, data-driven daily practice."
+              as="p"
+              by="word"
+              variant="fadeUp"
+              staggerDelay={20}
+              duration={500}
+              delay={680}
+              onScroll={false}
+              className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto leading-relaxed"
+            />
           </div>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
