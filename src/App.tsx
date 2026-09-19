@@ -21,6 +21,7 @@ import { AchievementsPage } from './pages/AchievementsPage'
 import { ProfilePage } from './pages/ProfilePage'
 import { LoginPage } from './pages/LoginPage'
 import { SignupPage } from './pages/SignupPage'
+import { ColorBends } from './components/ColorBends'
 import { X, Sparkles } from 'lucide-react'
 
 const NotificationToast: React.FC = () => {
@@ -52,9 +53,20 @@ function App() {
       <AuthProvider>
         <TypingSessionProvider>
           <BrowserRouter>
-            <div className="min-h-screen flex flex-col justify-between bg-[#fbfbfd] dark:bg-[#0a0a0c] text-[#1d1d1f] dark:text-[#f5f5f7] transition-colors">
+            <div className="min-h-screen flex flex-col justify-between bg-transparent text-[#1d1d1f] dark:text-[#f5f5f7] transition-colors relative">
+              <ColorBends
+                color="#A855F7"
+                speed={0.2}
+                frequency={1.0}
+                noise={0.15}
+                bandWidth={0.13}
+                rotation={90}
+                fadeTop={0.75}
+                iterations={1}
+                intensity={1.3}
+              />
               <Header />
-              <main className="flex-1">
+              <main className="flex-1 relative z-10">
                 <Routes>
                   <Route path="/" element={<LandingPage />} />
                   <Route path="/dashboard" element={<DashboardPage />} />
