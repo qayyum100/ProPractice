@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import ParticleText from './ParticleText'
 
 interface LoopedBlurredHeadingProps {
   prefix?: string
@@ -44,25 +45,27 @@ export const BlurredTypingText: React.FC<LoopedBlurredHeadingProps> = ({
         ))}
       </div>
 
-      {/* Line 2: Suffix (e.g. "Think faster.") with gradient - ALWAYS VISIBLE */}
-      <div className="block">
-        <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-sky-500 via-indigo-500 to-sky-400">
-          {suffixChars.map((char, i) => {
-            const startDelay = prefixChars.length * 38 + 120 + i * 42
-            return (
-              <span
-                key={`s-${animKey}-${i}`}
-                className="inline-block animate-blur-type"
-                style={{
-                  animationDelay: `${startDelay}ms`,
-                  willChange: 'filter, opacity, transform',
-                }}
-              >
-                {char === ' ' ? '\u00A0' : char}
-              </span>
-            )
-          })}
-        </span>
+      {/* Line 2: Suffix (e.g. "Think faster.") with ParticleText */}
+      <div className="block h-[1.2em] relative min-h-[60px] sm:min-h-[80px]">
+        <ParticleText
+          text={suffix}
+          particleSize={2}
+          density={4}
+          color="#38bdf8"
+          highlightColor="#0284c7"
+          scatter={180}
+          gatherDuration={1600}
+          stagger={420}
+          pointerRepel={40}
+          repelRadius={120}
+          idleDrift={0.7}
+          trigger="hover"
+          fontSize="1em"
+          fontWeight={800}
+          fontFamily="inherit"
+          glow={true}
+        />
+      </div>
 
         {/* Glowing Pulsating Caret */}
         <span
@@ -70,6 +73,5 @@ export const BlurredTypingText: React.FC<LoopedBlurredHeadingProps> = ({
           aria-hidden="true"
         />
       </div>
-    </div>
   )
 }
