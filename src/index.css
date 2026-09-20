@@ -143,13 +143,13 @@ body {
 
 @keyframes blurType {
   0% {
-    opacity: 0.2;
+    opacity: 0.15;
     filter: blur(8px);
-    transform: translateY(3px) scale(0.94);
+    transform: translateY(3px) scale(0.96);
   }
-  50% {
-    opacity: 0.8;
-    filter: blur(2px);
+  60% {
+    opacity: 0.9;
+    filter: blur(1px);
   }
   100% {
     opacity: 1;
@@ -163,7 +163,7 @@ body {
    ======================================= */
 
 .animate-blur-type {
-  animation: blurType 0.14s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: blurType 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .animate-smooth-blink {
