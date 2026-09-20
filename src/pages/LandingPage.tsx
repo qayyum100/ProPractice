@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Button } from '../components/ui/Button'
 import { Container } from '../components/layout/Container'
 import { StaggeredText } from '../components/StaggeredText'
+import { BlurredTypingText } from '../components/BlurredTypingText'
 import {
   Sparkles,
   Zap,
@@ -144,28 +145,21 @@ export const LandingPage: React.FC = () => {
           </div>
 
           <div className="space-y-4 max-w-4xl mx-auto">
-            <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-neutral-900 dark:text-white leading-[1.05]">
-              <StaggeredText
-                text="Type better."
-                as="span"
-                by="word"
-                variant="fadeUp"
-                staggerDelay={80}
-                duration={600}
-                delay={100}
-                onScroll={false}
-                className="block"
-              />
-              <StaggeredText
-                text="Think faster."
-                as="span"
-                by="word"
-                variant="fadeUp"
-                staggerDelay={80}
-                duration={600}
-                delay={380}
-                onScroll={false}
-                className="block text-transparent bg-clip-text bg-gradient-to-r from-sky-500 via-indigo-500 to-sky-400"
+            <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-neutral-900 dark:text-white leading-[1.1] min-h-[2.4em] sm:min-h-[2.3em] flex items-center justify-center">
+              <BlurredTypingText
+                phrases={[
+                  { prefix: 'Type better.', suffix: 'Think faster.' },
+                  { prefix: 'Code cleaner.', suffix: 'Ship quicker.' },
+                  { prefix: 'Think clearly.', suffix: 'Express faster.' },
+                  { prefix: 'Practice daily.', suffix: 'Master fluency.' },
+                ]}
+                typingSpeed={50}
+                deletingSpeed={25}
+                holdDuration={2400}
+                pauseBeforeNext={350}
+                className="inline-flex flex-wrap items-center justify-center gap-x-3 gap-y-1"
+                prefixClassName="text-neutral-900 dark:text-white"
+                suffixClassName="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 via-indigo-500 to-sky-400"
               />
             </h1>
             <StaggeredText
