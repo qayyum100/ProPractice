@@ -7,9 +7,11 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
+    "test:voice": "node tests/verifyVoice.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@google/genai": "^2.28.0",
     "@supabase/supabase-js": "^2.116.0",
     "canvas-confetti": "^1.9.4",
     "clsx": "^2.1.1",

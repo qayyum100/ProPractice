@@ -22,7 +22,8 @@ import {
   LayoutDashboard,
   Code2,
   ChevronRight,
-  Sparkles
+  Sparkles,
+  Headphones
 } from 'lucide-react'
 
 export const Header: React.FC = () => {
@@ -65,6 +66,7 @@ export const Header: React.FC = () => {
 
   const navLinks = [
     { label: 'Practice', path: '/practice', icon: <Compass className="w-4 h-4" /> },
+    { label: 'Voice Training', path: '/voice-training', icon: <Headphones className="w-4 h-4 text-amber-500" /> },
     { label: 'Code Practice', path: '/code-practice', icon: <Code2 className="w-4 h-4" /> },
     { label: 'AI Coach', path: '/coach', icon: <Bot className="w-4 h-4" /> },
     { label: 'Challenges', path: '/challenges', icon: <Swords className="w-4 h-4" /> },

@@ -26,6 +26,7 @@ const LeaderboardPage = React.lazy(() => import('./pages/LeaderboardPage').then(
 const AchievementsPage = React.lazy(() => import('./pages/AchievementsPage').then(module => ({ default: module.AchievementsPage })))
 const ProfilePage = React.lazy(() => import('./pages/ProfilePage').then(module => ({ default: module.ProfilePage })))
 const DeveloperCodePracticePage = React.lazy(() => import('./pages/DeveloperCodePracticePage').then(module => ({ default: module.DeveloperCodePracticePage })))
+const AmazonVoiceQuizPage = React.lazy(() => import('./pages/AmazonVoiceQuizPage').then(module => ({ default: module.AmazonVoiceQuizPage })))
 const LoginPage = React.lazy(() => import('./pages/LoginPage').then(module => ({ default: module.LoginPage })))
 const SignupPage = React.lazy(() => import('./pages/SignupPage').then(module => ({ default: module.SignupPage })))
 
@@ -96,6 +97,8 @@ function App() {
                     <Route path="/" element={<LandingPage />} />
                     <Route path="/dashboard" element={<DashboardPage />} />
                     <Route path="/practice" element={<PracticeHubPage />} />
+                    <Route path="/voice-training" element={<AmazonVoiceQuizPage />} />
+                    <Route path="/amazon-voice" element={<AmazonVoiceQuizPage />} />
                     <Route path="/code-practice" element={<DeveloperCodePracticePage />} />
                     <Route path="/result" element={<SessionResultPage />} />
                     <Route path="/assessment" element={<AssessmentPage />} />

@@ -205,33 +205,47 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     try {
       if (isSupabaseConfigured && supabase && password) {
-        const { data, error } = await supabase.auth.signInWithPassword({
-          email: normalizedEmail,
-          password
-        })
-        if (error) throw error
-        if (data.user) {
-          setUser(data.user)
-          setSession(data.session)
-        }
-      } else {
-        // Local Account Authentication
-        const accounts = getStoredAccounts()
-        const found = accounts.find(
-          (a) => a.email.toLowerCase() === normalizedEmail
-        )
+        try {
+          const { data, error } = await supabase.auth.signInWithPassword({
+            email: normalizedEmail,
+            password
+          })
+          if (error) throw error
+          if (data.user) {
+            setUser(data.user)
+            setSession(data.session)
+            return
+          }
+        } catch (supErr: any) {
+          const isNetworkError =
+            supErr.message === 'Failed to fetch' ||
+            supErr.message?.includes('fetch') ||
+            supErr.name === 'AuthRetryableFetchError' ||
+            supErr.status === 0
 
-        if (!found) {
-          throw new Error('No account found with this email. Please check your spelling or sign up.')
+          if (!isNetworkError) {
+            throw supErr
+          }
+          console.warn('Supabase auth network error, falling back to local account authentication:', supErr)
         }
-
-        if (password && found.password && found.password !== password) {
-          throw new Error('Incorrect password. Please try again.')
-        }
-
-        setProfile(found.profile)
-        localStorage.setItem('practice_active_user', JSON.stringify(found.profile))
       }
+
+      // Local Account Authentication
+      const accounts = getStoredAccounts()
+      const found = accounts.find(
+        (a) => a.email.toLowerCase() === normalizedEmail
+      )
+
+      if (!found) {
+        throw new Error('No account found with this email. Please check your spelling or sign up.')
+      }
+
+      if (password && found.password && found.password !== password) {
+        throw new Error('Incorrect password. Please try again.')
+      }
+
+      setProfile(found.profile)
+      localStorage.setItem('practice_active_user', JSON.stringify(found.profile))
     } finally {
       setIsLoading(false)
     }
@@ -249,54 +263,83 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
 
       if (isSupabaseConfigured && supabase && password) {
-        const { data, error } = await supabase.auth.signUp({
-          email: normalizedEmail,
-          password,
-          options: { data: { full_name: cleanName } }
-        })
-        if (error) throw error
-        if (data.user) {
-          setUser(data.user)
-          setSession(data.session)
+        try {
+          const { data, error } = await supabase.auth.signUp({
+            email: normalizedEmail,
+            password,
+            options: { data: { full_name: cleanName } }
+          })
+          if (error) throw error
+          if (data.user) {
+            setUser(data.user)
+            setSession(data.session)
+
+            const newProfile: UserProfile = {
+              id: data.user.id,
+              email: normalizedEmail,
+              username: cleanUsername,
+              fullName: cleanName,
+              avatarUrl: '',
+              primaryGoal: 'increase_speed',
+              isDeveloper: true,
+              dailyTargetMinutes: 20,
+              experienceLevel: 'intermediate',
+              englishLevel: 'Level 2'
+            }
+            setProfile(newProfile)
+            localStorage.setItem('practice_active_user', JSON.stringify(newProfile))
+            return
+          }
+        } catch (supErr: any) {
+          const isNetworkError =
+            supErr.message === 'Failed to fetch' ||
+            supErr.message?.includes('fetch') ||
+            supErr.name === 'AuthRetryableFetchError' ||
+            supErr.status === 0
+
+          if (!isNetworkError) {
+            throw supErr
+          }
+          console.warn('Supabase signup network error, falling back to local account registration:', supErr)
         }
-      } else {
-        // Local Account Registration
-        const accounts = getStoredAccounts()
-        const existing = accounts.find(
-          (a) => a.email.toLowerCase() === normalizedEmail
-        )
-
-        if (existing) {
-          throw new Error('An account with this email already exists. Please sign in instead.')
-        }
-
-        const newProfile: UserProfile = {
-          id: `usr_local_${Date.now()}`,
-          email: normalizedEmail,
-          username: cleanUsername,
-          fullName: cleanName,
-          avatarUrl: '',
-          primaryGoal: 'increase_speed',
-          isDeveloper: true,
-          dailyTargetMinutes: 20,
-          experienceLevel: 'intermediate',
-          englishLevel: 'Level 2'
-        }
-
-        const newAccount: RegisteredAccount = {
-          id: newProfile.id,
-          email: normalizedEmail,
-          password: password || 'password123',
-          profile: newProfile,
-          createdAt: new Date().toISOString()
-        }
-
-        const updatedAccounts = [newAccount, ...accounts]
-        saveStoredAccounts(updatedAccounts)
-
-        setProfile(newProfile)
-        localStorage.setItem('practice_active_user', JSON.stringify(newProfile))
       }
+
+      // Local Account Registration
+      const accounts = getStoredAccounts()
+      const existing = accounts.find(
+        (a) => a.email.toLowerCase() === normalizedEmail
+      )
+
+      if (existing) {
+        throw new Error('An account with this email already exists. Please sign in instead.')
+      }
+
+      const newProfile: UserProfile = {
+        id: `usr_local_${Date.now()}`,
+        email: normalizedEmail,
+        username: cleanUsername,
+        fullName: cleanName,
+        avatarUrl: '',
+        primaryGoal: 'increase_speed',
+        isDeveloper: true,
+        dailyTargetMinutes: 20,
+        experienceLevel: 'intermediate',
+        englishLevel: 'Level 2'
+      }
+
+      const newAccount: RegisteredAccount = {
+        id: newProfile.id,
+        email: normalizedEmail,
+        password: password || 'password123',
+        profile: newProfile,
+        createdAt: new Date().toISOString()
+      }
+
+      const updatedAccounts = [newAccount, ...accounts]
+      saveStoredAccounts(updatedAccounts)
+
+      setProfile(newProfile)
+      localStorage.setItem('practice_active_user', JSON.stringify(newProfile))
     } finally {
       setIsLoading(false)
     }

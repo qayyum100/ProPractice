@@ -19,7 +19,8 @@ import {
   BookOpen,
   Terminal,
   Swords,
-  ArrowRight
+  ArrowRight,
+  Headphones
 } from 'lucide-react'
 
 export const DashboardPage: React.FC = () => {
@@ -69,6 +70,11 @@ export const DashboardPage: React.FC = () => {
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
+            <Link to="/voice-training">
+              <Button size="md" variant="secondary" icon={<Headphones className="w-4 h-4 text-amber-500" />}>
+                Voice Training
+              </Button>
+            </Link>
             <Link to="/practice">
               <Button size="md" variant="primary" icon={<Zap className="w-4 h-4" />}>
                 Quick Practice

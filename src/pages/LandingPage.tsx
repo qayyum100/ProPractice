@@ -17,7 +17,8 @@ import {
   ArrowRight,
   Star,
   Flame,
-  BarChart2
+  BarChart2,
+  Headphones
 } from 'lucide-react'
 
 const TYPING_DEMO_TEXT = "Verify the JSON Web Token in the authorization header before processing."
@@ -169,6 +170,11 @@ export const LandingPage: React.FC = () => {
             <Link to="/practice">
               <Button size="lg" variant="primary" icon={<Zap className="w-4 h-4" />}>
                 Start Practicing Free
+              </Button>
+            </Link>
+            <Link to="/voice-training">
+              <Button size="lg" variant="secondary" icon={<Headphones className="w-4 h-4 text-amber-500" />}>
+                Amazon Voice Training
               </Button>
             </Link>
             <Link to="/assessment">

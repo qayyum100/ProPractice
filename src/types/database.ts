@@ -71,6 +71,70 @@ export interface Database {
         }
         Update: Partial<Database['public']['Tables']['typing_sessions']['Row']>
       }
+      voice_quiz_attempts: {
+        Row: {
+          id: string
+          user_id: string | null
+          category: string
+          difficulty: string
+          question_count: number
+          score: number
+          accuracy_percentage: number
+          total_duration_seconds: number
+          mode: string
+          category_breakdown: Json
+          started_at: string
+          completed_at: string
+          created_at: string
+        }
+        Insert: {
+          id: string
+          user_id?: string | null
+          category: string
+          difficulty: string
+          question_count: number
+          score: number
+          accuracy_percentage: number
+          total_duration_seconds: number
+          mode: string
+          category_breakdown?: Json
+          started_at?: string
+          completed_at?: string
+          created_at?: string
+        }
+        Update: Partial<Database['public']['Tables']['voice_quiz_attempts']['Insert']>
+        Relationships: []
+      }
+      voice_question_attempts: {
+        Row: {
+          id: string
+          attempt_id: string
+          user_id: string | null
+          question_id: string
+          category: string
+          topic: string
+          selected_options: string[]
+          is_correct: boolean
+          is_marked_for_review: boolean
+          time_spent_seconds: number
+          answered_at: string
+        }
+        Insert: {
+          id?: string
+          attempt_id: string
+          user_id?: string | null
+          question_id: string
+          category: string
+          topic: string
+          selected_options?: string[]
+          is_correct: boolean
+          is_marked_for_review?: boolean
+          time_spent_seconds?: number
+          answered_at?: string
+        }
+        Update: Partial<Database['public']['Tables']['voice_question_attempts']['Insert']>
+        Relationships: []
+      }
     }
   }
 }
