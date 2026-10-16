@@ -10,7 +10,7 @@
 
 import { VERIFIED_QUESTION_BANK, VOICE_CATEGORIES } from '../../data/amazonVoiceQuestionBank'
 import { CALL_FLOW_SCENARIOS } from '../../data/amazonVoiceScenarios'
-import { VoiceCategoryKey, QuizAttemptRecord } from '../../types/amazonVoice'
+import { VoiceCategoryKey } from '../../types/amazonVoice'
 
 export function runVoiceTestSuite(): { passed: number; failed: number; errors: string[] } {
   let passed = 0
@@ -30,30 +30,31 @@ export function runVoiceTestSuite(): { passed: number; failed: number; errors: s
 
   console.log('--- Starting ProPractice Amazon Voice Process Unit & Integrity Tests ---')
 
-  // Test 1: Category Completeness (All 9 categories represented)
-  const categoryKeys: VoiceCategoryKey[] = [
-    'order_issues',
-    'product_issues',
+  // Test 1: Category Completeness (All 10 Master Syllabus Modules)
+  const masterCategoryKeys: VoiceCategoryKey[] = [
+    'security_fundamentals',
+    'order_delivery',
     'returns_refunds',
-    'fulfillment_seller',
-    'amazon_prime',
-    'ring_troubleshooting',
-    'call_structure',
-    'customer_scenarios',
-    'process_knowledge'
+    'payments_concessions',
+    'fulfillment_marketplace',
+    'prime_subscriptions',
+    'international_shipping',
+    'transfers_operations',
+    'call_handling',
+    'assessment_performance'
   ]
 
   assert(
-    VOICE_CATEGORIES.length === 9,
-    'All 9 categories are defined in category metadata'
+    VOICE_CATEGORIES.length >= 10,
+    'At least 10 master categories are defined in category metadata'
   )
 
-  categoryKeys.forEach((key) => {
+  masterCategoryKeys.forEach((key) => {
     const hasCategory = VOICE_CATEGORIES.some((c) => c.key === key)
-    assert(hasCategory, `Category metadata exists for key: ${key}`)
+    assert(hasCategory, `Category metadata exists for master module: ${key}`)
 
     const hasQuestions = VERIFIED_QUESTION_BANK.some((q) => q.category === key)
-    assert(hasQuestions, `Verified Question Bank contains questions for category: ${key}`)
+    assert(hasQuestions, `Verified Question Bank contains questions for master module: ${key}`)
   })
 
   // Test 2: Verified Question Bank Structure & Schema

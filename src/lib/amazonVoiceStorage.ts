@@ -12,9 +12,19 @@ const BOOKMARKS_STORAGE_KEY = 'propractice_voice_bookmarks_v1'
 const CUSTOM_NOTES_KEY = 'propractice_voice_custom_notes_v1'
 
 const INITIAL_CATEGORY_STATS = (): Record<VoiceCategoryKey, { totalAttempts: number; totalCorrect: number; totalQuestions: number; accuracy: number; lastPracticed?: number }> => ({
+  security_fundamentals: { totalAttempts: 0, totalCorrect: 0, totalQuestions: 0, accuracy: 0 },
+  order_delivery: { totalAttempts: 0, totalCorrect: 0, totalQuestions: 0, accuracy: 0 },
+  returns_refunds: { totalAttempts: 0, totalCorrect: 0, totalQuestions: 0, accuracy: 0 },
+  payments_concessions: { totalAttempts: 0, totalCorrect: 0, totalQuestions: 0, accuracy: 0 },
+  fulfillment_marketplace: { totalAttempts: 0, totalCorrect: 0, totalQuestions: 0, accuracy: 0 },
+  prime_subscriptions: { totalAttempts: 0, totalCorrect: 0, totalQuestions: 0, accuracy: 0 },
+  international_shipping: { totalAttempts: 0, totalCorrect: 0, totalQuestions: 0, accuracy: 0 },
+  transfers_operations: { totalAttempts: 0, totalCorrect: 0, totalQuestions: 0, accuracy: 0 },
+  call_handling: { totalAttempts: 0, totalCorrect: 0, totalQuestions: 0, accuracy: 0 },
+  assessment_performance: { totalAttempts: 0, totalCorrect: 0, totalQuestions: 0, accuracy: 0 },
+  // legacy aliases
   order_issues: { totalAttempts: 0, totalCorrect: 0, totalQuestions: 0, accuracy: 0 },
   product_issues: { totalAttempts: 0, totalCorrect: 0, totalQuestions: 0, accuracy: 0 },
-  returns_refunds: { totalAttempts: 0, totalCorrect: 0, totalQuestions: 0, accuracy: 0 },
   fulfillment_seller: { totalAttempts: 0, totalCorrect: 0, totalQuestions: 0, accuracy: 0 },
   amazon_prime: { totalAttempts: 0, totalCorrect: 0, totalQuestions: 0, accuracy: 0 },
   ring_troubleshooting: { totalAttempts: 0, totalCorrect: 0, totalQuestions: 0, accuracy: 0 },

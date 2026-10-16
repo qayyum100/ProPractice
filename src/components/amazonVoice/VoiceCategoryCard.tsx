@@ -9,7 +9,12 @@ import {
   Radio,
   Headphones,
   Users,
-  BarChart,
+  Shield,
+  CreditCard,
+  Globe,
+  PhoneForwarded,
+  Award,
+  BarChart2,
   ArrowRight,
   CheckCircle2,
   Sparkles
@@ -34,15 +39,20 @@ export const VoiceCategoryCard: React.FC<VoiceCategoryCardProps> = ({
 }) => {
   const getIcon = () => {
     switch (category.iconName) {
+      case 'Shield': return <Shield className="w-5 h-5" />
       case 'Package': return <Package className="w-5 h-5" />
-      case 'AlertTriangle': return <AlertTriangle className="w-5 h-5" />
       case 'RotateCcw': return <RotateCcw className="w-5 h-5" />
+      case 'CreditCard': return <CreditCard className="w-5 h-5" />
       case 'Truck': return <Truck className="w-5 h-5" />
       case 'Crown': return <Crown className="w-5 h-5" />
+      case 'Globe': return <Globe className="w-5 h-5" />
+      case 'PhoneForwarded': return <PhoneForwarded className="w-5 h-5" />
       case 'Radio': return <Radio className="w-5 h-5" />
       case 'Headphones': return <Headphones className="w-5 h-5" />
       case 'Users': return <Users className="w-5 h-5" />
-      case 'BarChart': return <BarChart className="w-5 h-5" />
+      case 'BarChart': return <BarChart2 className="w-5 h-5" />
+      case 'Award': return <Award className="w-5 h-5" />
+      case 'AlertTriangle': return <AlertTriangle className="w-5 h-5" />
       default: return <Sparkles className="w-5 h-5" />
     }
   }

@@ -3,9 +3,19 @@
  */
 
 export type VoiceCategoryKey =
+  | 'security_fundamentals'
+  | 'order_delivery'
+  | 'returns_refunds'
+  | 'payments_concessions'
+  | 'fulfillment_marketplace'
+  | 'prime_subscriptions'
+  | 'international_shipping'
+  | 'transfers_operations'
+  | 'call_handling'
+  | 'assessment_performance'
+  // Legacy / granular keys
   | 'order_issues'
   | 'product_issues'
-  | 'returns_refunds'
   | 'fulfillment_seller'
   | 'amazon_prime'
   | 'ring_troubleshooting'

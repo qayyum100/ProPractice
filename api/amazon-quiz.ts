@@ -118,18 +118,17 @@ Configuration:
 - Question Type: ${questionType}
 ${customNotes ? `- Authorized Training Notes to adhere to:\n"${customNotes.slice(0, 800)}"` : ''}
 
-Strict Amazon NA Voice SOP Knowledge Guidelines:
-1. Delivered Not Received (DNR): Mandatory 24-48 hour buffer from the delivery timestamp before issuing replacements or refunds. Instruct customer to check physical surroundings (porch, garage, neighbors).
-2. Financial SLA Refund Timelines:
-   - Amazon Gift Card: 2 to 3 hours
-   - Credit Card: 3 to 5 business days
-   - Debit Card / Bank Account: up to 10 business days
-3. Standard physical goods return window: 30 days from delivery.
-4. FBA vs MFN: For MFN (Merchant Fulfilled Network), CS guides customer to message seller allowing 48 hours for response before A-to-z claim eligibility.
-5. Prime Cancellation: Full refund only if zero Prime benefits used in the current billing cycle.
-6. Ring Troubleshooting: 2.4GHz Wi-Fi verification, checking RSSI signal strength, 20-30 second setup button hard reset before escalation.
-7. Call Flow: 1. Greeting, 2. Verification (PII masked, zero tolerance for asking full 16 digits/CVV), 3. ACA (Acknowledge, Concern, Assurance), 4. Probing (Hold 1-2 min max with permission), 5. Resolution, 6. Confirm resolution, 7. Further assistance, 8. Power Closing.
-8. Metrics: FCR (First Contact Resolution), AHT (Talk + Hold + ACW), CSAT/DSAT, PII security.
+Strict Amazon NA Voice 10-Domain Master Knowledge Guidelines:
+1. Security & Fundamentals: Authentication standards, PII masking (never full 16 digits/CVV/SSN), social engineering/pretexting defenses, order lifecycle (pending, preparing, shipped, delivered), unauthorized order / CAP escalation.
+2. Order Issues & Delivery: DNR mandatory 24-48h buffer before replacement/refund, Where Is My Stuff (WIS) residential delivery up to 8:00 PM local time, missing items / split parcels, switcheroo/mispack verification, damaged goods/hazardous liquids disposal, RDD weather buffers.
+3. Returns, Refunds & Replacements: Standard 30-day return window, Extended Holiday return (Nov 1-Dec 31 returnable to Jan 31), Refund at First Scan (RFS), exact financial timelines (Gift Card 2-3h, Credit Card 3-5 business days, Debit up to 10 business days), 30-day return window for original item on replacements, returnless refunds for hazards/low-value.
+4. Payments & Concessions: Pre-authorization hold vs dispatch settlement, split-tender (Gift Card + 1 card), courtesy credits and shipping fee refunds for verified delays, partial refund adjustments for bulky cosmetic flaws.
+5. Fulfillment & Marketplace: FBA vs MFN; MFN requires buyer-seller messaging with mandatory 48h seller response SLA before A-to-z claim; SFP / MFN Prime; Amazon Retail 1P ownership; zero tolerance for off-platform payment solicitations.
+6. Prime & Subscriptions: Prime tiers (Standard $139/yr, Prime Student 50% discount, Prime Access EBT), Amazon Household sharing, full refund on cancellation if zero benefits used / prorated if used, Subscribe & Save (1-4 items = 5%, 5+ items = 15%).
+7. International Shipping: Amazon Global Store, DDP Import Fees Deposit (IFD) with 60-day auto-refund of surplus, customs clearance tax ID requirements, 3-5 business day international delay buffer before lost-in-transit declaration.
+8. Transfers & Operations: Warm Transfer protocol (permission, hold, brief receiving agent, introduce), Inline Transfers, routing to specialized teams (CAP/Fraud, Ring Tech, Logistics), searching Heartbeat/CSC in AC3.
+9. Call Handling & Communication: 9-Stage Call Flow (Greeting, Verification, ACA Empathy, Probing, 1-2 min max hold with permission, Clear Resolution, Further Assistance, Power Closing), avoiding jargon (AC3, CSC, SOP, MFN) with customers, never guessing facts.
+10. Assessment & Performance: First Contact Resolution (FCR), Average Handling Time (AHT 5-7 min target), CSAT/DSAT, structured AC3 contact notes (Issue, Verification, Action, Next Steps), policy-first decision making without concession coercion.
 
 Output MUST be a valid JSON array conforming strictly to this TypeScript schema:
 [

@@ -1,7 +1,6 @@
 import {
   QuizConfig,
-  VoiceQuizQuestion,
-  VoiceCategoryKey
+  VoiceQuizQuestion
 } from '../types/amazonVoice'
 import { VERIFIED_QUESTION_BANK } from '../data/amazonVoiceQuestionBank'
 import { amazonVoiceStorage } from './amazonVoiceStorage'

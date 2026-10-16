@@ -191,9 +191,19 @@ export const AmazonVoiceQuizPage: React.FC = () => {
       VoiceCategoryKey,
       { total: number; correct: number; accuracy: number }
     > = {
+      security_fundamentals: { total: 0, correct: 0, accuracy: 0 },
+      order_delivery: { total: 0, correct: 0, accuracy: 0 },
+      returns_refunds: { total: 0, correct: 0, accuracy: 0 },
+      payments_concessions: { total: 0, correct: 0, accuracy: 0 },
+      fulfillment_marketplace: { total: 0, correct: 0, accuracy: 0 },
+      prime_subscriptions: { total: 0, correct: 0, accuracy: 0 },
+      international_shipping: { total: 0, correct: 0, accuracy: 0 },
+      transfers_operations: { total: 0, correct: 0, accuracy: 0 },
+      call_handling: { total: 0, correct: 0, accuracy: 0 },
+      assessment_performance: { total: 0, correct: 0, accuracy: 0 },
+      // legacy aliases
       order_issues: { total: 0, correct: 0, accuracy: 0 },
       product_issues: { total: 0, correct: 0, accuracy: 0 },
-      returns_refunds: { total: 0, correct: 0, accuracy: 0 },
       fulfillment_seller: { total: 0, correct: 0, accuracy: 0 },
       amazon_prime: { total: 0, correct: 0, accuracy: 0 },
       ring_troubleshooting: { total: 0, correct: 0, accuracy: 0 },
