@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Container } from '../components/layout/Container'
-import { VOICE_CATEGORIES, VERIFIED_QUESTION_BANK } from '../data/amazonVoiceQuestionBank'
+import { VOICE_CATEGORIES, VERIFIED_QUESTION_BANK, PRIORITY_VOICE_TOPICS } from '../data/amazonVoiceQuestionBank'
 import { VoiceCategoryCard } from '../components/amazonVoice/VoiceCategoryCard'
 import { VoiceQuizCard } from '../components/amazonVoice/VoiceQuizCard'
 import { VoiceQuizTimer } from '../components/amazonVoice/VoiceQuizTimer'
@@ -23,7 +23,17 @@ import {
   Sliders,
   AlertCircle,
   Flag,
-  Loader2
+  Loader2,
+  ShieldCheck,
+  PackageSearch,
+  Layers,
+  Repeat,
+  Wallet,
+  RotateCcw,
+  CreditCard,
+  Crown,
+  Target,
+  ArrowRight
 } from 'lucide-react'
 
 type PageViewMode = 'dashboard' | 'active_quiz' | 'results' | 'simulator'
@@ -32,6 +42,7 @@ export const AmazonVoiceQuizPage: React.FC = () => {
   const [viewMode, setViewMode] = useState<PageViewMode>('dashboard')
   const [isSetupOpen, setIsSetupOpen] = useState(false)
   const [setupInitialCategory, setSetupInitialCategory] = useState<VoiceCategoryKey | undefined>()
+  const [setupInitialFocusTopic, setSetupInitialFocusTopic] = useState<string | undefined>()
 
   // Active Quiz State
   const [currentConfig, setCurrentConfig] = useState<QuizConfig | null>(null)
@@ -106,6 +117,18 @@ export const AmazonVoiceQuizPage: React.FC = () => {
       questionCount: 10,
       questionType: 'single_choice',
       mode: 'learn'
+    })
+  }
+
+  // Priority Syllabus Focus Drill (1-click drill for the 8 core syllabus topics)
+  const handleLaunchFocusDrill = (topicQuery: string, categoryKey: VoiceCategoryKey) => {
+    handleStartQuiz({
+      categories: [categoryKey],
+      difficulty: 'mixed',
+      questionCount: 10,
+      questionType: 'single_choice',
+      mode: 'learn',
+      focusTopic: topicQuery
     })
   }
 
@@ -261,6 +284,7 @@ export const AmazonVoiceQuizPage: React.FC = () => {
   // Drill a specific category from category card
   const handleLaunchCategory = (categoryKey: VoiceCategoryKey) => {
     setSetupInitialCategory(categoryKey)
+    setSetupInitialFocusTopic(undefined)
     setIsSetupOpen(true)
   }
 
@@ -312,6 +336,7 @@ export const AmazonVoiceQuizPage: React.FC = () => {
                   type="button"
                   onClick={() => {
                     setSetupInitialCategory(undefined)
+                    setSetupInitialFocusTopic(undefined)
                     setIsSetupOpen(true)
                   }}
                   className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl border border-neutral-200 dark:border-neutral-700 hover:border-neutral-400 text-xs font-bold text-neutral-800 dark:text-neutral-200 bg-white dark:bg-[#181820] transition-all cursor-pointer shadow-2xs"
@@ -396,6 +421,96 @@ export const AmazonVoiceQuizPage: React.FC = () => {
                 <span className="text-xs text-neutral-400 block">
                   Saved for review
                 </span>
+              </div>
+            </div>
+
+            {/* Priority Voice Process Focus Drills (The 8 Key Syllabus Areas) */}
+            <div className="space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
+                      Core Curriculum
+                    </span>
+                    <h2 className="text-lg sm:text-xl font-bold text-neutral-900 dark:text-white">
+                      Priority Voice Process Focus Drills
+                    </h2>
+                  </div>
+                  <p className="text-xs text-neutral-400 mt-0.5">
+                    Targeted 10-question practice drills for high-yield voice customer service modules and nesting assessments
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3.5">
+                {PRIORITY_VOICE_TOPICS.map((topic) => {
+                  const getTopicIcon = () => {
+                    switch (topic.id) {
+                      case 'a_to_z': return <ShieldCheck className="w-4 h-4 text-cyan-500" />
+                      case 'wms': return <PackageSearch className="w-4 h-4 text-orange-500" />
+                      case 'returns_refunds_exceptions': return <RotateCcw className="w-4 h-4 text-emerald-500" />
+                      case 'order_item_types': return <Layers className="w-4 h-4 text-indigo-500" />
+                      case 'subscribe_save': return <Repeat className="w-4 h-4 text-blue-500" />
+                      case 'payment_charges': return <CreditCard className="w-4 h-4 text-pink-500" />
+                      case 'amazon_prime_types': return <Crown className="w-4 h-4 text-amber-500" />
+                      case 'payment_methods': return <Wallet className="w-4 h-4 text-purple-500" />
+                      default: return <Target className="w-4 h-4 text-amber-500" />
+                    }
+                  }
+
+                  return (
+                    <div
+                      key={topic.id}
+                      className="group p-4 rounded-2xl bg-white dark:bg-[#121217] border border-neutral-200/80 dark:border-neutral-800/80 hover:border-amber-500/50 dark:hover:border-amber-500/50 shadow-2xs hover:shadow-md transition-all flex flex-col justify-between"
+                    >
+                      <div>
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="flex items-center gap-2">
+                            <div className="w-8 h-8 rounded-xl bg-neutral-100 dark:bg-neutral-800/80 flex items-center justify-center">
+                              {getTopicIcon()}
+                            </div>
+                            <span className="text-[11px] font-bold font-mono text-neutral-400">
+                              #{topic.number}
+                            </span>
+                          </div>
+                          <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-500">
+                            {topic.badge}
+                          </span>
+                        </div>
+
+                        <h3 className="text-xs sm:text-sm font-bold text-neutral-900 dark:text-white group-hover:text-amber-500 transition-colors line-clamp-1">
+                          {topic.title}
+                        </h3>
+                        <p className="text-[11px] text-neutral-400 leading-snug mt-1 line-clamp-2">
+                          {topic.description}
+                        </p>
+                      </div>
+
+                      <div className="pt-3 mt-3 border-t border-neutral-100 dark:border-neutral-800 flex items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => handleLaunchFocusDrill(topic.query, topic.categoryKey)}
+                          className="flex-1 py-1.5 px-3 rounded-xl bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 text-xs font-semibold hover:opacity-90 transition-opacity flex items-center justify-center gap-1.5 cursor-pointer"
+                        >
+                          <span>Drill 10Q</span>
+                          <ArrowRight className="w-3 h-3" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setSetupInitialCategory(topic.categoryKey)
+                            setSetupInitialFocusTopic(topic.query)
+                            setIsSetupOpen(true)
+                          }}
+                          className="p-1.5 rounded-xl border border-neutral-200 dark:border-neutral-700 hover:border-neutral-400 text-neutral-500 hover:text-neutral-900 dark:hover:text-white transition-colors cursor-pointer"
+                          title="Custom Drill Setup"
+                        >
+                          <Sliders className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </div>
+                  )
+                })}
               </div>
             </div>
 
@@ -697,9 +812,14 @@ export const AmazonVoiceQuizPage: React.FC = () => {
       {/* Custom Quiz Setup Modal */}
       <VoiceSetupModal
         isOpen={isSetupOpen}
-        onClose={() => setIsSetupOpen(false)}
+        onClose={() => {
+          setIsSetupOpen(false)
+          setSetupInitialCategory(undefined)
+          setSetupInitialFocusTopic(undefined)
+        }}
         onStartQuiz={handleStartQuiz}
         initialCategory={setupInitialCategory}
+        initialFocusTopic={setupInitialFocusTopic}
       />
     </div>
   )

@@ -1,5 +1,99 @@
 import { VoiceCategoryKey, VoiceCategoryMeta, VoiceQuizQuestion } from '../types/amazonVoice'
 
+export interface PriorityVoiceTopic {
+  id: string
+  number: number
+  title: string
+  shortTitle: string
+  query: string
+  categoryKey: VoiceCategoryKey
+  description: string
+  badge: string
+}
+
+export const PRIORITY_VOICE_TOPICS: PriorityVoiceTopic[] = [
+  {
+    id: 'a_to_z',
+    number: 1,
+    title: 'A-to-z Guarantee Claims',
+    shortTitle: 'A-to-z Claims',
+    query: 'A-to-z',
+    categoryKey: 'fulfillment_marketplace',
+    description: 'Mandatory 48-hour seller response window, 90-day filing cutoff from EDD, covered conditions & resolutions.',
+    badge: 'Claims & Protection'
+  },
+  {
+    id: 'wms',
+    number: 2,
+    title: 'Where\'s My Stuff? (WMS / WIS)',
+    shortTitle: 'WMS / Order Tracking',
+    query: 'WMS',
+    categoryKey: 'order_delivery',
+    description: 'Carrier status messages, tracking milestone scans, warehouse fulfillment states (FC Pick/Pack/Ship), and DNR buffer.',
+    badge: 'Logistics & Tracking'
+  },
+  {
+    id: 'returns_refunds_exceptions',
+    number: 3,
+    title: 'Return & Refund Policies, Methods & Exceptions',
+    shortTitle: 'Returns & Exceptions',
+    query: 'Return',
+    categoryKey: 'returns_refunds',
+    description: 'The UPS Store / Kohl\'s box-free QR drop-offs, Extended Holiday Return Policy (Nov 1 - Jan 31), and non-returnable hazmat exceptions.',
+    badge: 'Returns & Concessions'
+  },
+  {
+    id: 'order_item_types',
+    number: 4,
+    title: 'Types of Orders & Types of Items',
+    shortTitle: 'Order & Item Types',
+    query: 'Types of',
+    categoryKey: 'security_fundamentals',
+    description: 'Physical vs digital items, Hazmat ground restrictions, High-value OTP delivery, Pre-orders & $0 replacement orders.',
+    badge: 'Fulfillment & Models'
+  },
+  {
+    id: 'subscribe_save',
+    number: 5,
+    title: 'Subscribe & Save (S&S)',
+    shortTitle: 'Subscribe & Save',
+    query: 'Subscribe',
+    categoryKey: 'prime_subscriptions',
+    description: '5% vs 15% discount tiers, recurring delivery frequencies (2wk - 6mo), skip/cancel flexibility, and price notifications.',
+    badge: 'Subscriptions'
+  },
+  {
+    id: 'payment_charges',
+    number: 6,
+    title: 'Payment Charges (Backup, Retro & Unknown)',
+    shortTitle: 'Payment Charges',
+    query: 'Charges',
+    categoryKey: 'payments_concessions',
+    description: 'Backup payment card failsafe, 30-day retro charges for unreturned replacements, and unknown statement charge PII lookup.',
+    badge: 'Billing & Charges'
+  },
+  {
+    id: 'amazon_prime_types',
+    number: 7,
+    title: 'Amazon Prime & Its Types',
+    shortTitle: 'Prime Tiers & Types',
+    query: 'Prime',
+    categoryKey: 'prime_subscriptions',
+    description: 'Standard Annual ($139), Monthly ($14.99), Prime Student (50% off), Prime Access ($6.99/mo), Prime Video, and Household sharing.',
+    badge: 'Memberships'
+  },
+  {
+    id: 'payment_methods',
+    number: 8,
+    title: 'Payment Methods & Types',
+    shortTitle: 'Payment Methods',
+    query: 'Payment',
+    categoryKey: 'payments_concessions',
+    description: 'Accepted major cards, Amazon Store Card, SNAP EBT, HSA/FSA, Affirm BNPL, split payments, and prohibited COD/checks.',
+    badge: 'Payment Methods'
+  }
+]
+
 export const VOICE_CATEGORIES: VoiceCategoryMeta[] = [
   // ================= 10 OFFICIAL MASTER SYLLABUS MODULES =================
   {
@@ -7,7 +101,7 @@ export const VOICE_CATEGORIES: VoiceCategoryMeta[] = [
     title: '1. Security and Order Fundamentals',
     shortTitle: 'Security & Fundamentals',
     badge: 'Module 1',
-    description: 'Security Authentication, Social Engineering, Data Handling, PII Masking, Order Life Cycle, Unauthorized Orders, and Selling/Fulfillment Models (FBA, Retail, MFN).',
+    description: 'Security Authentication, Social Engineering, Data Handling, PII Masking, Order Life Cycle, Types of Items (Retail, FBA, MFN, Digital, Hazmat, High-Value OTP), and Types of Orders (Standard, Subscribe & Save, Pre-orders, Digital Orders, Replacement $0 Orders, Multi-Shipment Split Orders).',
     topics: [
       '1. Security Authentication',
       '2. Social Engineering',
@@ -15,7 +109,8 @@ export const VOICE_CATEGORIES: VoiceCategoryMeta[] = [
       '4. PII (Personally Identifiable Information)',
       '5. Order Life Cycle',
       '6. Unauthorized Orders and Security Concerns',
-      '7. Types of Items and Selling/Fulfillment Models (Sold by Seller Fulfilled by Amazon, Sold & Fulfilled by Amazon, MFN)'
+      '7. Types of Items (Retail, FBA, MFN, Digital, Hazmat, High-Value OTP, Heavy & Bulky, Gift Cards)',
+      '7b. Types of Orders (Standard Retail, Subscribe & Save, Pre-orders, Digital Orders, Replacement $0 Orders, Multi-Shipment Split Orders, Exchange Orders)'
     ],
     iconName: 'Shield',
     color: {
@@ -31,10 +126,10 @@ export const VOICE_CATEGORIES: VoiceCategoryMeta[] = [
     title: '2. Order Issues and Delivery',
     shortTitle: 'Order Issues & Delivery',
     badge: 'Module 2',
-    description: 'Problems with an Order (PWAO), Where Is My Stuff (WIS), Delivery Status Messages, Delivery Methods, Shipping Speeds, Late Delivery, DNR (24-48h buffer), Missing Items, Switcheroo, Damaged/Defective, EDD/RDD, and Cancellations.',
+    description: 'Problems with an Order (PWAO), Where Is My Stuff (WMS / WIS), Delivery Status Messages, Delivery Methods, Shipping Speeds, Late Delivery, DNR (24-48h buffer), Missing Items, Switcheroo, Damaged/Defective, EDD/RDD, and Cancellations.',
     topics: [
       '8. Problems with an Order',
-      '9. Where Is My Stuff? (WIS)',
+      '9. Where Is My Stuff? (WMS / WIS - Order Tracking, Carrier Milestones & Warehouse Fulfillment Scans)',
       '10. Delivery Status Messages',
       '11. Types of Delivery Methods',
       '12. Shipping Speeds and Shipping Methods',
@@ -65,20 +160,20 @@ export const VOICE_CATEGORIES: VoiceCategoryMeta[] = [
     title: '3. Returns, Refunds, and Replacements',
     shortTitle: 'Returns & Refunds',
     badge: 'Module 3',
-    description: 'Return Methods (UPS, Kohl’s), Return Policies, 30-Day Windows, Return Eligibility, Refund Policies, Refund Methods, SLA Timelines (GC 2-3h, CC 3-5d, Debit up to 10d), Refund Not Received, Returnless Refunds, and FBA vs MFN handling.',
+    description: 'Return Methods (The UPS Store QR drop-off, Kohl’s box-free, Lockers, Whole Foods, UPS Pickup), Return Policies & Extended Holiday Windows (Nov 1 - Jan 31), Return Exceptions & Non-Returnable Items (Hazmat, Perishables, Digital), Refund Policies, Refund Methods & SLA Timelines (GC 2-3h, CC 3-5d, Debit up to 10d), Refund Not Received, and Returnless Refunds.',
     topics: [
-      '25. Return Methods',
-      '26. Return Policies',
+      '25. Return Methods (The UPS Store QR Drop-off, Kohl\'s, Amazon Locker, Whole Foods, UPS Pickup)',
+      '26. Return Policies & Extended Holiday Return Policy (Nov 1 - Jan 31)',
       '27. Return Windows',
-      '28. Return Eligibility',
-      '29. Refund Policies',
+      '28. Return Eligibility & Non-Returnable Exceptions (Hazmat, Flammables, Perishables, Digital Software)',
+      '29. Refund Policies, Exceptions & Timelines (Gift Card 2-3h, Credit Card 3-5d, Debit Card up to 10d)',
       '30. Refund Methods',
       '31. Refund Processing Timelines',
       '32. Refund Not Received',
       '33. Refund Status and Tracking',
       '34. Replacement Policies',
       '35. Replacement Timelines',
-      '36. Returnless Refunds, Where Eligible',
+      '36. Returnless Refunds, Where Eligible (Damaged Hazmat & Perishables)',
       '37. FBA vs. MFN Return and Refund Handling',
       '38. Refund and Replacement Resolutions'
     ],
@@ -96,11 +191,12 @@ export const VOICE_CATEGORIES: VoiceCategoryMeta[] = [
     title: '4. Payments and Concessions',
     shortTitle: 'Payments & Concessions',
     badge: 'Module 4',
-    description: 'Payment Methods & Types, Payment Policies, Authorization Holds vs Declined Payments, Payment Resolutions, Concession Eligibility & Authorization, and Partial Refunds / Approved Adjustments.',
+    description: 'Payment Methods & Types (Credit/Debit, Amazon Store Card, Prime Visa, Gift Cards/Balance, SNAP EBT, HSA/FSA, Affirm, Prohibited Methods), Payment Charges (Backup Payment Methods, Retro Charges for Unreturned Items, Unknown/Unrecognized Charges & PII Lookup SOP), Authorization Holds vs Declined Payments, and Concessions.',
     topics: [
-      '39. Payment Methods and Types',
+      '39. Payment Methods and Types (Credit/Debit, Amazon Store Card, Prime Visa, Gift Cards, SNAP EBT, HSA/FSA, Affirm, Prohibited Methods)',
       '40. Payment Policies',
       '41. Payment Authorization and Declined Payments',
+      '41b. Payment Charges (Backup Payment Methods, Retro Charges for Unreturned Items, and Unknown/Unrecognized Charges)',
       '42. Payment-Related Resolutions',
       '43. Concessions',
       '44. Concession Eligibility and Authorization',
@@ -120,7 +216,7 @@ export const VOICE_CATEGORIES: VoiceCategoryMeta[] = [
     title: '5. Amazon Fulfillment and Marketplace',
     shortTitle: 'Fulfillment & Marketplace',
     badge: 'Module 5',
-    description: 'Amazon FBA (Fulfillment by Amazon), MFN (Merchant Fulfillment Network), MFN Prime (SFP), Amazon Retail, Marketplace Sellers, MPM (Marketplace Merchant), Seller-Fulfilled vs Amazon-Fulfilled, and A-to-z Guarantee Claims.',
+    description: 'Amazon FBA (Fulfillment by Amazon), MFN (Merchant Fulfillment Network), MFN Prime (SFP), Amazon Retail, Marketplace Sellers, MPM (Marketplace Merchant), Seller-Fulfilled vs Amazon-Fulfilled, and A-to-z Guarantee Claims (Eligibility, 48-Hour Seller Contact SLA, 90-Day Filing Rule, Resolutions & Appeals).',
     topics: [
       '46. Amazon FBA (Fulfillment by Amazon)',
       '47. MFN (Merchant Fulfillment Network)',
@@ -129,7 +225,7 @@ export const VOICE_CATEGORIES: VoiceCategoryMeta[] = [
       '50. Marketplace Sellers',
       '51. MPM (Marketplace Merchant)',
       '52. Seller-Fulfilled vs. Amazon-Fulfilled Orders',
-      '53. A-to-z Guarantee Claims'
+      '53. A-to-z Guarantee Claims (Eligibility, 48-Hour Seller Window, 90-Day Filing Rule, Covered Conditions, Associate Support & Seller Appeals)'
     ],
     iconName: 'Truck',
     color: {
@@ -145,18 +241,18 @@ export const VOICE_CATEGORIES: VoiceCategoryMeta[] = [
     title: '6. Amazon Prime and Subscriptions',
     shortTitle: 'Prime & Subscriptions',
     badge: 'Module 6',
-    description: 'Amazon Prime Tiers & Benefits, Prime Billing & $139 Fee, Cancellation & Refund Eligibility, Amazon Subscribe & Save (S&S), 5% vs 15% Tier Discounts, Recurring Deliveries, and Skipping/Modifying/Cancelling.',
+    description: 'Amazon Prime & Its Types (Standard Annual $139, Monthly $14.99, Prime Student, Prime Access Government Assistance, Prime Video Standalone, Household Sharing), Prime Billing, Cancellation & 100% Refund Eligibility, and Amazon Subscribe & Save (S&S Discounts 5% vs 15%, Delivery Frequencies 2wk-6mo, Skip/Modify/Cancel, Price Fluctuation Rules, Out-of-Stock Substitutions).',
     topics: [
       '54. Amazon Prime',
-      '55. Types of Amazon Prime Subscriptions',
-      '56. Prime Membership Benefits',
+      '55. Types of Amazon Prime Subscriptions (Standard Annual, Standard Monthly, Prime Student, Prime Access, Prime Video Standalone)',
+      '56. Prime Membership Benefits and Amazon Household Sharing',
       '57. Prime Billing and Charges',
       '58. Prime Membership Cancellation',
-      '59. Prime Refund Eligibility',
+      '59. Prime Refund Eligibility (Full Refund if 0 Benefits Used)',
       '60. Amazon Subscribe & Save',
-      '61. Subscribe & Save Discounts',
-      '62. Recurring Deliveries',
-      '63. Skipping, Modifying, and Cancelling Subscriptions'
+      '61. Subscribe & Save Discounts (5% for 1-4 items, 15% for 5+ items)',
+      '62. Recurring Deliveries (Frequencies from 2 Weeks to 6 Months)',
+      '63. Skipping, Modifying, and Cancelling Subscriptions (Zero Fee Flexibility)'
     ],
     iconName: 'Crown',
     color: {
@@ -539,6 +635,120 @@ export const VERIFIED_QUESTION_BANK: VoiceQuizQuestion[] = [
     referenceSource: 'Amazon Selling Models & Customer Care Matrix',
     isVerified: true
   },
+  {
+    id: 'sec-008',
+    category: 'security_fundamentals',
+    topic: '7. Types of Items (Retail, FBA, MFN, Digital, Hazmat, High-Value OTP)',
+    difficulty: 'intermediate',
+    type: 'single_choice',
+    question: 'How does Amazon\'s return and cancellation policy differ between standard physical merchandise and digital purchases (such as Kindle eBooks or Prime Video rentals)?',
+    options: [
+      { id: 'opt_1', text: 'Physical merchandise cannot be returned, whereas digital purchases can be returned for up to 2 years.', distractorReason: 'Inverted and false; physical items have standard return windows.' },
+      { id: 'opt_2', text: 'Physical goods generally have a 30-day return window from delivery; accidental Kindle eBook purchases have a strict 7-day return window if unread, and accidental Prime Video rentals can be refunded within 48 hours if not streamed.', distractorReason: '' },
+      { id: 'opt_3', text: 'Digital purchases can never be refunded under any circumstances even if bought by an infant on 1-Click.', distractorReason: 'Accidental 1-Click digital purchases have designated return windows.' },
+      { id: 'opt_4', text: 'Digital video purchases must be returned by mailing an empty flash drive to Amazon.', distractorReason: 'Digital content licenses are revoked electronically via account tools.' }
+    ],
+    correctAnswerIds: ['opt_2'],
+    explanation: 'Digital content policies differ from physical retail: accidental Kindle eBook purchases made via 1-Click can be returned within 7 days through "Manage Your Content and Devices" if unread or only minimally read. Unstreamed Prime Video rentals/purchases can be cancelled within 48 hours. Physical retail items adhere to the standard 30-day window.',
+    hint: 'Kindle eBooks have a 7-day accidental purchase return window; unwatched Prime Video within 48h.',
+    referenceSource: 'Amazon Digital Services - Kindle & Prime Video Return Policies',
+    isVerified: true
+  },
+  {
+    id: 'sec-009',
+    category: 'security_fundamentals',
+    topic: '7. Types of Items (Retail, FBA, MFN, Digital, Hazmat, High-Value OTP)',
+    difficulty: 'advanced',
+    type: 'single_choice',
+    question: 'What special shipping limitations and carrier restrictions apply to orders containing Hazardous Materials (Hazmat, e.g. lithium-ion power banks, aerosol hairsprays, perfume, or paint)?',
+    options: [
+      { id: 'opt_1', text: 'They must be shipped via hot air balloon within 2 hours.', distractorReason: 'Absurd distractor.' },
+      { id: 'opt_2', text: 'Hazmat items are restricted to Ground Transportation, are strictly ineligible for expedited Air Shipping (Next-Day Air / Two-Day Air), and cannot be shipped to freight forwarders or APO/FPO military addresses.', distractorReason: '' },
+      { id: 'opt_3', text: 'Hazmat items can only be bought by licensed government contractors.', distractorReason: 'Everyday consumer products like batteries and perfumes are classified as Hazmat.' },
+      { id: 'opt_4', text: 'There are zero restrictions on any hazardous materials.', distractorReason: 'Violates FAA and DOT federal transportation laws.' }
+    ],
+    correctAnswerIds: ['opt_2'],
+    explanation: 'Federal transportation safety regulations (FAA/DOT) prohibit air transport of flammable liquids, pressurized aerosols, and high-capacity lithium batteries. These items must travel exclusively via Ground shipping, cannot qualify for Next-Day Air, and cannot be shipped to APO/FPO or remote offshore islands.',
+    hint: 'Hazmat items travel strictly by ground shipping and cannot be shipped by air or to military APO/FPO addresses.',
+    referenceSource: 'Amazon Logistics - Dangerous Goods & Hazmat Transportation SOP',
+    isVerified: true
+  },
+  {
+    id: 'sec-010',
+    category: 'security_fundamentals',
+    topic: '7. Types of Items (Retail, FBA, MFN, Digital, Hazmat, High-Value OTP)',
+    difficulty: 'advanced',
+    type: 'single_choice',
+    question: 'A customer calls stating: "The delivery driver is at my front door with my new $1,200 iPhone, but he refuses to hand it to me unless I give him a 6-digit One-Time Password (OTP)! I don\'t have it! Override this code in your computer right now so he gives me my phone!" How must the voice associate respond?',
+    options: [
+      { id: 'opt_1', text: 'Override the security protocol and command the driver to drop the phone immediately.', distractorReason: 'Voice associates have no technical capability or authority to override driver delivery OTPs.' },
+      { id: 'opt_2', text: 'Explain that for high-value merchandise, the 6-digit OTP is an automated security protection sent to the customer\'s registered email and visible under "Track Package" in their Amazon account; guide the customer to locate the OTP in their email/app to read to the driver.', distractorReason: '' },
+      { id: 'opt_3', text: 'Advise the customer to physically tackle the delivery driver.', distractorReason: 'Dangerous, illegal, and unacceptable advice.' },
+      { id: 'opt_4', text: 'Change the customer\'s password and cancel the delivery.', distractorReason: 'Disrupts account access and fails to resolve the active delivery.' }
+    ],
+    correctAnswerIds: ['opt_2'],
+    explanation: 'High-value items (such as smartphones, laptops, expensive cameras) require an OTP (One-Time Password) upon delivery to prevent package theft and misdelivery. The associate cannot override or bypass the OTP. The representative calmly guides the customer to check their registered email inbox or tap "Track Package" in the Amazon app to read the 6-digit code to the driver.',
+    hint: 'Associates cannot bypass OTPs; guide the customer to find the OTP in their email or Track Package screen.',
+    referenceSource: 'Amazon Logistics - High-Value Item One-Time Password (OTP) Delivery SOP',
+    isVerified: true
+  },
+  {
+    id: 'sec-011',
+    category: 'security_fundamentals',
+    topic: '7. Types of Items (Retail, FBA, MFN, Digital, Hazmat, High-Value OTP)',
+    difficulty: 'intermediate',
+    type: 'single_choice',
+    question: 'What delivery requirements distinguish "Heavy and Bulky" merchandise (such as 75-inch TVs, treadmills, or sectional sofas) from standard parcel deliveries?',
+    options: [
+      { id: 'opt_1', text: 'Heavy and bulky orders are delivered by standard postal carriers and placed in standard mailboxes.', distractorReason: 'Oversized freight cannot fit into residential mailboxes.' },
+      { id: 'opt_2', text: 'They require Scheduled Delivery where the customer selects a specific delivery date and time window, are handled by specialized freight carriers, and require an adult (18+) signature upon delivery.', distractorReason: '' },
+      { id: 'opt_3', text: 'The customer must provide their own forklift at the curb.', distractorReason: 'Freight line delivery vehicles include liftgate equipment.' },
+      { id: 'opt_4', text: 'Heavy items are always delivered in separate pieces over 12 months.', distractorReason: 'Items are delivered as complete freight shipments.' }
+    ],
+    correctAnswerIds: ['opt_2'],
+    explanation: 'Heavy & Bulky items (over 50-70 lbs or oversized dimensions) utilize specialized freight carriers (e.g. Amazon Freight, CEVA). The customer must schedule an appointment delivery window, an adult must be present to sign, and optional services (Room of Choice delivery, unboxing, haul-away) can be selected.',
+    hint: 'Heavy & Bulky orders require scheduled delivery appointment windows and adult signatures.',
+    referenceSource: 'Amazon Special Delivery - Heavy & Bulky Freight Delivery Guidelines',
+    isVerified: true
+  },
+  {
+    id: 'sec-012',
+    category: 'security_fundamentals',
+    topic: '7b. Types of Orders (Standard Retail, Pre-orders, S&S, Replacement $0, Split)',
+    difficulty: 'intermediate',
+    type: 'single_choice',
+    question: 'A customer places a "Pre-Order" for an upcoming video game scheduled for release in 3 months. When will the customer\'s card be charged, and how does the "Pre-Order Price Guarantee" protect them?',
+    options: [
+      { id: 'opt_1', text: 'The card is charged immediately, and if the price drops later, Amazon keeps the difference as a processing fee.', distractorReason: 'Pre-orders bill upon shipment, and price guarantee passes savings to the customer.' },
+      { id: 'opt_2', text: 'The card is charged only when the item enters the shipping process; the Pre-Order Price Guarantee ensures the customer is automatically billed the lowest price offered on Amazon between the order date and release date.', distractorReason: '' },
+      { id: 'opt_3', text: 'Pre-orders must be paid with physical gold coins delivered by courier.', distractorReason: 'Absurd distractor.' },
+      { id: 'opt_4', text: 'Pre-orders are charged double the retail price to reserve stock.', distractorReason: 'Deceptive and untrue.' }
+    ],
+    correctAnswerIds: ['opt_2'],
+    explanation: 'For physical pre-orders, Amazon never charges the customer\'s credit or debit card until the item enters fulfillment and is dispatched. Furthermore, Amazon\'s Pre-Order Price Guarantee automatically charges the lowest price displayed on Amazon.com between the time the customer ordered and the release date.',
+    hint: 'Cards bill upon shipment; customers automatically pay the lowest price offered prior to release.',
+    referenceSource: 'Amazon Pre-Order Policy & Pre-Order Price Guarantee (POPG) SOP',
+    isVerified: true
+  },
+  {
+    id: 'sec-013',
+    category: 'security_fundamentals',
+    topic: '7b. Types of Orders (Standard Retail, Pre-orders, S&S, Replacement $0, Split)',
+    difficulty: 'advanced',
+    type: 'single_choice',
+    question: 'When Amazon Customer Service generates a "Zero-Cost Replacement Order" ($0.00 total) for a customer whose original item arrived defective, what critical return policy and consequence must be communicated to the customer?',
+    options: [
+      { id: 'opt_1', text: 'The customer can keep both items indefinitely with zero obligation to return the defective one.', distractorReason: 'Replacements require returning the original within 30 days unless a returnless concession is authorized.' },
+      { id: 'opt_2', text: 'The customer must return the original defective item using the prepaid return label within 30 days; otherwise, Amazon will automatically charge their original payment method for the price of the replacement item (Retro Charge).', distractorReason: '' },
+      { id: 'opt_3', text: 'The customer must pay a $50 administrative fee upon receipt.', distractorReason: 'Zero-cost replacements carry no administrative fees.' },
+      { id: 'opt_4', text: 'The customer must destroy both units on a live video stream.', distractorReason: 'Unreasonable and absurd.' }
+    ],
+    correctAnswerIds: ['opt_2'],
+    explanation: 'When a zero-cost replacement order is dispatched, an automated 30-day return window is assigned to the original item. The customer must drop off the original unit using the provided prepaid return method within 30 days. If the warehouse does not scan the return within 30 days, a retroactive charge ("Retro Charge") is automatically levied.',
+    hint: 'Customers must return the original unit within 30 days to avoid a retro charge for the replacement.',
+    referenceSource: 'Amazon Customer Service - Zero-Cost Replacement & Return Window SOP',
+    isVerified: true
+  },
 
   // ================= 2. ORDER ISSUES AND DELIVERY =================
   {
@@ -864,6 +1074,101 @@ export const VERIFIED_QUESTION_BANK: VoiceQuizQuestion[] = [
     referenceSource: 'Amazon Order Management - Out of Stock Replacement Protocol',
     isVerified: true
   },
+  {
+    id: 'ord-018',
+    category: 'order_delivery',
+    topic: '9. Where Is My Stuff? (WMS / WIS - Order Tracking, Carrier Milestones & Warehouse Fulfillment Scans)',
+    difficulty: 'beginner',
+    type: 'single_choice',
+    question: 'During a "Where\'s My Stuff?" (WMS / WIS) inbound voice call, what is the first operational step an associate must execute after completing the professional greeting and authenticating the customer?',
+    options: [
+      { id: 'opt_1', text: 'Immediately issue a full refund to end the call before checking tracking.', distractorReason: 'Premature refunding without checking status violates concession integrity and financial compliance.' },
+      { id: 'opt_2', text: 'Locate the specific Order ID in AC3, check the latest carrier tracking milestone, verify the Estimated Delivery Date (EDD), and identify the current physical scan location and status of the parcel.', distractorReason: '' },
+      { id: 'opt_3', text: 'Tell the caller that shipping logistics details are classified corporate secrets.', distractorReason: 'Absurd and deceptive.' },
+      { id: 'opt_4', text: 'Place the customer on hold for 45 minutes to see if the driver arrives.', distractorReason: 'Severe hold time and handling time violation.' }
+    ],
+    correctAnswerIds: ['opt_2'],
+    explanation: 'WMS / WIS call handling requires systematic investigation: identify the order, check the current carrier scan (e.g. Carrier Facility, Out for Delivery, Delayed), compare against the Estimated Delivery Date (EDD) promise, and provide a clear, empathetic explanation to the customer.',
+    hint: 'Check the Order ID in AC3, verify tracking milestones, and compare against the EDD promise.',
+    referenceSource: 'Amazon NA Voice Process - WIS/WMS Inbound Call Handling SOP',
+    isVerified: true
+  },
+  {
+    id: 'ord-019',
+    category: 'order_delivery',
+    topic: '10. Delivery Status Messages',
+    difficulty: 'intermediate',
+    type: 'single_choice',
+    question: 'An order\'s WMS tracking displays the status message: "Delivery Attempted - Business Closed / Front Door Inaccessible" at 5:30 PM. The customer calls at 6:00 PM asking what will happen next. What should the associate advise?',
+    options: [
+      { id: 'opt_1', text: 'The package was incinerated and the customer must re-purchase at full price.', distractorReason: 'False and panic-inducing.' },
+      { id: 'opt_2', text: 'The carrier attempted delivery but could not access the location safely; the carrier will automatically re-attempt delivery on the next business day, and the customer can provide delivery instructions (gate code/safe spot) in their account.', distractorReason: '' },
+      { id: 'opt_3', text: 'The customer must rent a helicopter to intercept the delivery van immediately.', distractorReason: 'Unprofessional nonsense.' },
+      { id: 'opt_4', text: 'An immediate fraud report will be filed against the customer\'s address.', distractorReason: 'Delivery attempts do not trigger fraud reports.' }
+    ],
+    correctAnswerIds: ['opt_2'],
+    explanation: 'When tracking indicates a delivery attempt failed due to access issues (closed business, locked gate, loose dog), carriers automatically re-attempt on the following business day. The associate should reassure the caller, verify the address, and help add carrier delivery instructions in "Your Addresses".',
+    hint: 'Carriers re-attempt delivery on the next business day when an attempt was inaccessible.',
+    referenceSource: 'Amazon Logistics (AMZL) - Delivery Exceptions & Re-Attempt Guidelines',
+    isVerified: true
+  },
+  {
+    id: 'ord-020',
+    category: 'order_delivery',
+    topic: '9. Where Is My Stuff? (WMS / WIS - Order Tracking, Carrier Milestones & Warehouse Fulfillment Scans)',
+    difficulty: 'intermediate',
+    type: 'single_choice',
+    question: 'In Amazon fulfillment logistics and Warehouse Management Systems (WMS), an order moves from "Order Placed" to "Preparing for Dispatch" (Picking / Packing in the FC). Why can an associate generally NO LONGER guarantee cancellation at this stage?',
+    options: [
+      { id: 'opt_1', text: 'Because cancellation fees are strictly 100% of the item cost.', distractorReason: 'Amazon never charges cancellation fees.' },
+      { id: 'opt_2', text: 'Because the items have been assigned to warehouse robotic pickers, packaged into shipping cartons, and staged for carrier loading docks; cancelling is no longer possible once processed into the automated fulfillment stream.', distractorReason: '' },
+      { id: 'opt_3', text: 'Because Amazon employees are legally forbidden from modifying orders on weekdays.', distractorReason: 'Completely untrue.' },
+      { id: 'opt_4', text: 'Because the item has already been delivered to the customer\'s house yesterday.', distractorReason: 'An order preparing for dispatch has not been delivered.' }
+    ],
+    correctAnswerIds: ['opt_2'],
+    explanation: 'Once an order reaches the automated warehouse fulfillment phase (Pick, Pack, Slap, Ship), physical units are sealed inside boxes among hundreds of thousands of parcels moving along high-speed sorting conveyors. The system cannot intercept the specific box, so customers must use the standard return process or refuse the package upon delivery.',
+    hint: 'Warehouse automation seals and routes cartons for carrier dispatch, preventing manual cancellation.',
+    referenceSource: 'Amazon Fulfillment Operations - FC Warehouse Picking & Cancellation Boundaries',
+    isVerified: true
+  },
+  {
+    id: 'ord-021',
+    category: 'order_delivery',
+    topic: '11. Types of Delivery Methods',
+    difficulty: 'intermediate',
+    type: 'single_choice',
+    question: 'A customer tracking a package in WMS notices that tracking originated with Amazon Logistics (AMZL / TBA tracking) but shows a handoff: "Package transferred to local post office (USPS) for final delivery." What is this hybrid delivery method, and what tracking details should the associate explain?',
+    options: [
+      { id: 'opt_1', text: 'This is a system glitch indicating the package was lost in a river.', distractorReason: 'False and alarming.' },
+      { id: 'opt_2', text: 'This represents a carrier handoff (last-mile injection), where Amazon Logistics or a freight line transports the package to the customer\'s local postal facility, and USPS completes the final delivery to the customer\'s mailbox or door.', distractorReason: '' },
+      { id: 'opt_3', text: 'The customer must pay $50 cash to the USPS mail carrier to release the item.', distractorReason: 'Delivery is prepaid; postal carriers do not charge ransom fees.' },
+      { id: 'opt_4', text: 'The order has been canceled by the government.', distractorReason: 'Completely false.' }
+    ],
+    correctAnswerIds: ['opt_2'],
+    explanation: 'Amazon frequently uses hybrid carrier services (such as AMZL Last Mile Injection, UPS Mail Innovations, or FedEx SmartPost), where the primary logistics carrier handles long-haul hub transit and hands the package to the local post office (USPS) for final-mile delivery. Associates can provide both tracking IDs if needed.',
+    hint: 'Primary carriers transport packages to local postal facilities for USPS to complete final-mile delivery.',
+    referenceSource: 'Amazon Transportation Services - Hybrid Carrier Handoff & Last-Mile SOP',
+    isVerified: true
+  },
+  {
+    id: 'ord-022',
+    category: 'order_delivery',
+    topic: '14. Delivered Not Received (DNR)',
+    difficulty: 'advanced',
+    type: 'single_choice',
+    question: 'In a WMS "Where\'s My Stuff" inquiry, what is the critical policy difference between an order that is "Delayed in Transit past EDD by 3+ days" versus an order that was "Marked Delivered 4 hours ago but not found by customer"?',
+    options: [
+      { id: 'opt_1', text: 'Both situations must wait 6 months before any customer service interaction.', distractorReason: 'Violates all customer satisfaction and SLA standards.' },
+      { id: 'opt_2', text: 'A package marked "Delivered" requires a mandatory 24-48 hour buffer period (to account for premature carrier scans), whereas a package stuck "In Transit" with no tracking scans for 3+ business days past EDD can be declared Lost in Transit, allowing immediate replacement or refund.', distractorReason: '' },
+      { id: 'opt_3', text: 'Delayed in transit orders require calling 911 immediately.', distractorReason: '911 is strictly for life-threatening emergencies.' },
+      { id: 'opt_4', text: 'Delivered packages are never refunded under any circumstances even after 30 days.', distractorReason: 'DNR orders are refunded or replaced once the buffer expires.' }
+    ],
+    correctAnswerIds: ['opt_2'],
+    explanation: 'Operating rules distinguish between premature delivery scans and lost packages: a package scanned "Delivered" may still be on the carrier van and requires the 24-48 hour DNR buffer. Conversely, an order with stagnant tracking that has failed to deliver 3+ days past the original promise date is classified as "Lost in Transit" (LIT), enabling immediate replacement or refund without further waiting.',
+    hint: 'Delivered packages need the 24-48h buffer; stagnant shipments 3+ days past EDD can be resolved as lost in transit immediately.',
+    referenceSource: 'Amazon Voice Process - DNR Buffer vs. Lost in Transit (LIT) Guidelines',
+    isVerified: true
+  },
 
   // ================= 3. RETURNS, REFUNDS, AND REPLACEMENTS =================
   {
@@ -1132,6 +1437,101 @@ export const VERIFIED_QUESTION_BANK: VoiceQuizQuestion[] = [
     referenceSource: 'Amazon Voice Process - Customer-Centric Resolution Guidelines',
     isVerified: true
   },
+  {
+    id: 'ret-015',
+    category: 'returns_refunds',
+    topic: '25. Return Methods (The UPS Store QR Drop-off, Kohl\'s, Amazon Locker, Whole Foods, UPS Pickup)',
+    difficulty: 'beginner',
+    type: 'single_choice',
+    question: 'When a North American customer initiates an eligible return for standard clothing or small electronics on Amazon.com, which drop-off method offers a "Label-Free, Box-Free" experience via a smartphone QR code?',
+    options: [
+      { id: 'opt_1', text: 'Dropping the loose product off at an authorized The UPS Store or Kohl\'s location where associates scan the Amazon QR code and package the item for them.', distractorReason: '' },
+      { id: 'opt_2', text: 'Throwing the item into a public street mailbox with a sticky note.', distractorReason: 'Postal mailboxes reject unlabelled, unboxed packages.' },
+      { id: 'opt_3', text: 'Handing the bare item to any passing delivery driver without packaging or documentation.', distractorReason: 'Delivery drivers cannot accept unscheduled loose returns without return manifests.' },
+      { id: 'opt_4', text: 'Dropping the merchandise at an airport luggage carousel.', distractorReason: 'Unrelated and absurd.' }
+    ],
+    correctAnswerIds: ['opt_1'],
+    explanation: 'Amazon\'s label-free, box-free return partnership with The UPS Store and Kohl\'s allows customers to simply bring the unboxed item and display the mobile return QR code. The store associate scans the code, inspects the product, bags/boxes it, and prints the shipping manifest.',
+    hint: 'The UPS Store and Kohl\'s provide box-free, label-free returns using a simple mobile QR code.',
+    referenceSource: 'Amazon Returns - Carrier Drop-off & QR Code Workflows SOP',
+    isVerified: true
+  },
+  {
+    id: 'ret-016',
+    category: 'returns_refunds',
+    topic: '26. Return Policies & Extended Holiday Return Policy (Nov 1 - Jan 31)',
+    difficulty: 'intermediate',
+    type: 'single_choice',
+    question: 'Under Amazon\'s official "Extended Holiday Return Policy", what is the return eligibility window for items purchased between November 1 and December 25 of a given calendar year?',
+    options: [
+      { id: 'opt_1', text: 'The items must still be returned strictly within 14 days of purchase.', distractorReason: 'Standard holiday returns are extended, not shortened.' },
+      { id: 'opt_2', text: 'Eligible physical items purchased between November 1 and December 25 can be returned through January 31 of the following calendar year for a full refund.', distractorReason: '' },
+      { id: 'opt_3', text: 'The items can be returned anytime over the next 10 years.', distractorReason: 'Holiday extension ends January 31.' },
+      { id: 'opt_4', text: 'Holiday purchases cannot be returned under any circumstances.', distractorReason: 'Violates customer promise.' }
+    ],
+    correctAnswerIds: ['opt_2'],
+    explanation: 'Amazon\'s Extended Holiday Return Policy gives gift recipients and holiday shoppers peace of mind: items dispatched between November 1 and December 25 can be returned until January 31 of the subsequent year, rather than adhering to the standard 30-day window.',
+    hint: 'Holiday purchases (Nov 1 - Dec 25) can be returned through January 31 of the next year.',
+    referenceSource: 'Amazon Customer Service Policy - Extended Holiday Return Window',
+    isVerified: true
+  },
+  {
+    id: 'ret-017',
+    category: 'returns_refunds',
+    topic: '28. Return Eligibility & Non-Returnable Exceptions (Hazmat, Flammables, Perishables, Digital Software)',
+    difficulty: 'advanced',
+    type: 'single_choice',
+    question: 'Which of the following product categories is strictly classified as NON-RETURNABLE due to safety regulations, transport restrictions, or hygiene guidelines?',
+    options: [
+      { id: 'opt_1', text: 'Brand new unopened paperback fiction novels.', distractorReason: 'Standard returnable physical merchandise.' },
+      { id: 'opt_2', text: 'Hazardous materials (hazmat) such as flammable liquids, combustible gases, or damaged lithium batteries, as well as downloadable digital software, gift cards, and live insects.', distractorReason: '' },
+      { id: 'opt_3', text: 'Standard cotton t-shirts in the wrong size.', distractorReason: 'Fully returnable within 30 days.' },
+      { id: 'opt_4', text: 'Standard USB computer charging cables.', distractorReason: 'Fully returnable within 30 days.' }
+    ],
+    correctAnswerIds: ['opt_2'],
+    explanation: 'Federal transport safety (DOT/FAA) prohibits consumers from shipping hazardous materials (e.g. gasoline-powered items, aerosol sprays, flammable chemicals, bare damaged lithium batteries) via standard consumer parcel drop-offs. Additionally, digital game codes/software and gift cards are non-returnable.',
+    hint: 'Hazardous materials (flammables, chemicals), downloadable digital items, and gift cards cannot be returned.',
+    referenceSource: 'Amazon Non-Returnable Items & Hazmat Return SOP',
+    isVerified: true
+  },
+  {
+    id: 'ret-018',
+    category: 'returns_refunds',
+    topic: '36. Returnless Refunds, Where Eligible (Damaged Hazmat & Perishables)',
+    difficulty: 'intermediate',
+    type: 'single_choice',
+    question: 'A customer receives a bottle of liquid bleach or automotive motor oil that arrived punctured and leaking chemical fluid everywhere inside the shipping box. What is the approved Amazon Customer Service resolution?',
+    options: [
+      { id: 'opt_1', text: 'Order the customer to pour the leaking chemical into a plastic bag, take it to the UPS Store, and ship it back immediately.', distractorReason: 'Shipping leaking hazardous chemicals violates federal transit law and carrier safety.' },
+      { id: 'opt_2', text: 'Because the leaking chemical item is classified as hazardous and damaged in transit, issue a Returnless Refund or Returnless Replacement directly in AC3, and advise the customer to safely dispose of the item in accordance with local environmental guidelines.', distractorReason: '' },
+      { id: 'opt_3', text: 'Tell the customer to drink the bleach to verify it is real.', distractorReason: 'Extremely dangerous and unhinged.' },
+      { id: 'opt_4', text: 'Deny all assistance because the customer should have caught the box before it touched the ground.', distractorReason: 'Blaming the customer violates basic customer service.' }
+    ],
+    correctAnswerIds: ['opt_2'],
+    explanation: 'Amazon associates must NEVER instruct a customer to ship back leaking chemicals, broken glass, or hazardous materials. Carriers will reject leaking hazardous packages. Customer service representatives process a Returnless Refund or replacement and instruct safe local disposal.',
+    hint: 'Never require shipping back damaged hazardous or leaking chemicals; issue a returnless resolution.',
+    referenceSource: 'Amazon Environmental Health & Safety - Hazmat Concession & Returnless SOP',
+    isVerified: true
+  },
+  {
+    id: 'ret-019',
+    category: 'returns_refunds',
+    topic: '29. Refund Policies, Exceptions & Timelines (Gift Card 2-3h, Credit Card 3-5d, Debit Card up to 10d)',
+    difficulty: 'intermediate',
+    type: 'single_choice',
+    question: 'A customer returned an item and chose to receive their refund back to their original debit card. How long does Amazon\'s financial processing take before the funds reflect in the customer\'s bank account, and how does it compare to an Amazon Gift Card refund?',
+    options: [
+      { id: 'opt_1', text: 'Both debit cards and gift cards take exactly 90 business days.', distractorReason: 'Vastly exceeds actual SLA.' },
+      { id: 'opt_2', text: 'Amazon Gift Card refunds process within 2 to 3 hours (often instantaneous); Debit Card refunds process from Amazon within 3 to 5 business days, but can take up to 10 business days depending on the customer\'s financial institution.', distractorReason: '' },
+      { id: 'opt_3', text: 'Debit cards refund instantaneously within 3 seconds, while gift cards take 6 weeks.', distractorReason: 'Inverted timelines.' },
+      { id: 'opt_4', text: 'Banks keep all refunds as government donations.', distractorReason: 'Deceptive falsehood.' }
+    ],
+    correctAnswerIds: ['opt_2'],
+    explanation: 'Financial processing timelines: Amazon Gift Card balance refunds are issued within 2 to 3 hours of return scan. Credit card refunds take 3 to 5 business days. Debit card refunds typically take up to 10 business days for the customer\'s bank to post the funds to their checking account.',
+    hint: 'Gift Card balance takes 2-3 hours; debit card refunds can take up to 10 business days.',
+    referenceSource: 'Amazon Finance - Customer Refund SLA & Payment Processing Guidelines',
+    isVerified: true
+  },
 
   // ================= 4. PAYMENTS AND CONCESSIONS =================
   {
@@ -1265,6 +1665,215 @@ export const VERIFIED_QUESTION_BANK: VoiceQuizQuestion[] = [
     explanation: 'For heavy or bulky goods with minor cosmetic damage where the customer prefers keeping the product rather than undergoing difficult return logistics, associates can authorize a partial refund percentage within their discretionary limits. This balances customer satisfaction with operational freight savings.',
     hint: 'Partial refunds are approved for minor cosmetic flaws on bulky items to avoid heavy return freight.',
     referenceSource: 'Amazon Customer Care - Partial Refund & Cosmetic Adjustment SOP',
+    isVerified: true
+  },
+  {
+    id: 'pay-008',
+    category: 'payments_concessions',
+    topic: '41b. Payment Charges (Backup, Retro, and Unknown Charges)',
+    difficulty: 'intermediate',
+    type: 'single_choice',
+    question: 'What is the purpose of Amazon\'s "Back-Up Payment Method" feature, and how does it function when a customer\'s primary payment method is declined?',
+    options: [
+      { id: 'opt_1', text: 'It immediately opens a new credit card line with an outside bank without the customer\'s knowledge.', distractorReason: 'Illegal and impossible.' },
+      { id: 'opt_2', text: 'If the customer\'s default payment method is declined or expired during order dispatch or Prime renewal, Amazon automatically attempts to charge any designated backup payment card saved in the customer\'s wallet to prevent order cancellation or service interruption.', distractorReason: '' },
+      { id: 'opt_3', text: 'It forces the customer to pay using a neighbor\'s credit card.', distractorReason: 'Completely false.' },
+      { id: 'opt_4', text: 'It charges a $50 penalty fee every time a card is declined.', distractorReason: 'Amazon does not charge decline fees.' }
+    ],
+    correctAnswerIds: ['opt_2'],
+    explanation: 'Backup payment methods ensure smooth continuity: if an order or Prime membership renewal cannot be charged to the customer\'s primary card (due to card expiration, credit limit, or temporary bank lock), Amazon charges designated backup payment cards stored in the customer\'s Amazon Wallet.',
+    hint: 'Backup payment methods automatically pay for orders or memberships if the default card declines.',
+    referenceSource: 'Amazon Payments - Backup Payment Method Terms & Operations SOP',
+    isVerified: true
+  },
+  {
+    id: 'pay-009',
+    category: 'payments_concessions',
+    topic: '41b. Payment Charges (Backup, Retro, and Unknown Charges)',
+    difficulty: 'intermediate',
+    type: 'single_choice',
+    question: 'A customer calls stating: "Amazon charged my secondary debit card for my Prime membership when my main credit card expired. I don\'t want Amazon charging secondary cards without asking me!" What should the associate explain and guide the customer to do?',
+    options: [
+      { id: 'opt_1', text: 'Tell the customer that Amazon has legal rights to charge any card in the world without consent.', distractorReason: 'Customer maintains control over wallet settings.' },
+      { id: 'opt_2', text: 'Explain that the Backup Payment Method setting was active on their account; guide the customer to "Your Account" > "Your Payments" > "Manage Backup Payment Method" where they can disable the feature or deselect specific cards.', distractorReason: '' },
+      { id: 'opt_3', text: 'Take the customer\'s bank routing and account numbers to cancel their bank account.', distractorReason: 'Severe PII and compliance violation.' },
+      { id: 'opt_4', text: 'Issue a $500 cash gift to silence the customer.', distractorReason: 'Unauthorized concession.' }
+    ],
+    correctAnswerIds: ['opt_2'],
+    explanation: 'Backup payment method is an optional feature enabled in the customer\'s Amazon Wallet settings. Associates should explain how it works, guide the customer to "Manage Backup Payment Method" to turn it off or customize which cards are eligible, and handle any refund requests if benefits were unused.',
+    hint: 'Guide the customer to Your Payments > Manage Backup Payment Method to disable or customize backup cards.',
+    referenceSource: 'Amazon Wallet - Backup Payment Configuration & Customer Preferences',
+    isVerified: true
+  },
+  {
+    id: 'pay-010',
+    category: 'payments_concessions',
+    topic: '41b. Payment Charges (Backup, Retro, and Unknown Charges)',
+    difficulty: 'advanced',
+    type: 'single_choice',
+    question: 'What is a "Retro Charge" (Retroactive Charge) in Amazon customer operations, and what sequence of events causes it to appear on a customer\'s statement?',
+    options: [
+      { id: 'opt_1', text: 'A retro charge is a tax charged on vintage 1980s retro clothing items.', distractorReason: 'Humorous but false.' },
+      { id: 'opt_2', text: 'When Amazon sends an advance replacement item at zero upfront cost, the customer is given 30 days to return the original defective unit. If the warehouse does not receive and scan the returned unit within 30 days, the automated system retroactively charges the customer\'s card for the replacement.', distractorReason: '' },
+      { id: 'opt_3', text: 'It is an annual fee for using the Amazon mobile app.', distractorReason: 'The Amazon app is free.' },
+      { id: 'opt_4', text: 'It occurs when a customer cancels an order within 5 minutes of placing it.', distractorReason: 'Cancellations before shipping incur zero charges.' }
+    ],
+    correctAnswerIds: ['opt_2'],
+    explanation: 'When Amazon issues an advance replacement or advance refund, an automated 30-day return tracker is attached to the original item. If the return tracking is not scanned as received at the Amazon return center within 30 days, the system triggers a "Retro Charge" to bill the customer for the unreturned merchandise.',
+    hint: 'Occurs when an advance replacement is dispatched but the original item is not received within 30 days.',
+    referenceSource: 'Amazon Returns Operations - Advance Replacements & Retro Charge Policy SOP',
+    isVerified: true
+  },
+  {
+    id: 'pay-011',
+    category: 'payments_concessions',
+    topic: '41b. Payment Charges (Backup, Retro, and Unknown Charges)',
+    difficulty: 'advanced',
+    type: 'single_choice',
+    question: 'A customer calls furious: "You recharged my credit card $89 for an item I already returned 3 weeks ago! Here is my UPS drop-off receipt tracking number!" The associate checks carrier tracking and confirms the package was dropped off at The UPS Store 20 days ago and is currently in transit to the FC. What is the approved resolution?',
+    options: [
+      { id: 'opt_1', text: 'Refuse to help until the package physically touches the warehouse floor in 2 more months.', distractorReason: 'Punishes customer who complied with return rules.' },
+      { id: 'opt_2', text: 'Confirm that the customer dropped off the package within the 30-day window via verified carrier tracking, and immediately process a full refund for the retro charge in AC3.', distractorReason: '' },
+      { id: 'opt_3', text: 'Accuse the customer of stealing the replacement.', distractorReason: 'Severe behavioral violation.' },
+      { id: 'opt_4', text: 'Tell the customer to go to the UPS warehouse and find the truck.', distractorReason: 'Deflecting to carrier.' }
+    ],
+    correctAnswerIds: ['opt_2'],
+    explanation: 'If carrier tracking confirms that the customer dropped off the return package within the 30-day window, carrier shipping delays cannot be penalized against the customer. The associate must immediately refund the retro charge and document the carrier tracking number in the AC3 contact notes.',
+    hint: 'If carrier tracking confirms on-time drop-off, immediately process a refund for the retro charge.',
+    referenceSource: 'Amazon Voice Process - Retro Charge Dispute Resolution SOP',
+    isVerified: true
+  },
+  {
+    id: 'pay-012',
+    category: 'payments_concessions',
+    topic: '41b. Payment Charges (Backup, Retro, and Unknown Charges)',
+    difficulty: 'advanced',
+    type: 'single_choice',
+    question: 'A caller states: "I see an unknown charge of $139 from \'AMZN Mktp US\' on my credit card statement. I don\'t remember buying anything!" Under Amazon Security and PII masking standards, what information can the associate collect to locate the charge?',
+    options: [
+      { id: 'opt_1', text: 'The customer\'s full 16-digit credit card number, CVV code, and ATM PIN.', distractorReason: 'Zero-tolerance PCI-DSS violation.' },
+      { id: 'opt_2', text: 'Only the charge date, the exact charge amount, and the last 4 digits of the card charged, which are entered into the designated internal Payment Finder tool.', distractorReason: '' },
+      { id: 'opt_3', text: 'The customer\'s mother\'s maiden name and online banking password.', distractorReason: 'Severe security breach.' },
+      { id: 'opt_4', text: 'The associate cannot look up any charges under any circumstances.', distractorReason: 'Associates have authorized payment lookup tools.' }
+    ],
+    correctAnswerIds: ['opt_2'],
+    explanation: 'Zero-Tolerance Security Rule: Associates must NEVER ask for or accept full credit card numbers, expiration dates, or CVV codes. To locate an unrecognized charge in Payment Finder / AC3, the associate asks strictly for the transaction date, the exact dollar amount, and the last 4 digits of the card.',
+    hint: 'Only request the charge date, exact amount, and the last 4 digits of the card.',
+    referenceSource: 'Amazon Security & PCI Compliance - Unknown Charge Investigation Protocol',
+    isVerified: true
+  },
+  {
+    id: 'pay-013',
+    category: 'payments_concessions',
+    topic: '41b. Payment Charges (Backup, Retro, and Unknown Charges)',
+    difficulty: 'intermediate',
+    type: 'single_choice',
+    question: 'When investigating an "Unknown Charge" for a customer, which of the following represents the most frequent causes that an associate should probe before escalating to fraud?',
+    options: [
+      { id: 'opt_1', text: 'International space agency satellite rental fees.', distractorReason: 'Ridiculous.' },
+      { id: 'opt_2', text: 'Amazon Prime annual ($139) or monthly ($14.99) renewals, digital subscriptions (Prime Video Channels like Paramount+ or Starz, Kindle Unlimited, Audible), household family members sharing payment cards, or a $1 temporary authorization hold.', distractorReason: '' },
+      { id: 'opt_3', text: 'Hidden Amazon taxes on internet usage.', distractorReason: 'No such fees exist.' },
+      { id: 'opt_4', text: 'Computer viruses purchased automatically by the modem.', distractorReason: 'False.' }
+    ],
+    correctAnswerIds: ['opt_2'],
+    explanation: 'Most "unknown charges" are legitimate account activities: automated Prime renewals, free digital trials that converted to monthly subscriptions (Prime Video Channels, Audible, Kindle Unlimited), family members making purchases using 1-Click on smart devices (Fire TV / Alexa), or temporary pre-auth holds.',
+    hint: 'Check for Prime renewals, digital subscriptions (Prime Video Channels, Audible), or family 1-Click orders.',
+    referenceSource: 'Amazon Customer Service - Unknown Charges Root-Cause Analysis SOP',
+    isVerified: true
+  },
+  {
+    id: 'pay-014',
+    category: 'payments_concessions',
+    topic: '39. Payment Methods and Types (Credit/Debit, Amazon Store Card, Prime Visa, Gift Cards, SNAP EBT, HSA/FSA, Affirm, Prohibited Methods)',
+    difficulty: 'beginner',
+    type: 'single_choice',
+    question: 'Which of the following credit and store cards are accepted for purchases on Amazon.com?',
+    options: [
+      { id: 'opt_1', text: 'Major credit cards (Visa, MasterCard, American Express, Discover, Diners Club, JCB), as well as the Amazon Store Card, Amazon Secured Card, and Amazon Prime Visa Signature Card.', distractorReason: '' },
+      { id: 'opt_2', text: 'Only handwritten IOUs signed by a notary public.', distractorReason: 'Unaccepted.' },
+      { id: 'opt_3', text: 'Only cards issued by banks physically located in Seattle, Washington.', distractorReason: 'Global card networks accepted.' },
+      { id: 'opt_4', text: 'Credit cards are not accepted; only physical cash delivered in person is allowed.', distractorReason: 'Inverted.' }
+    ],
+    correctAnswerIds: ['opt_1'],
+    explanation: 'Amazon.com accepts all major card networks: Visa, MasterCard, American Express, Discover, JCB, and Diners Club. Amazon also offers co-branded credit products: the Amazon Prime Visa (Chase) with 5% cash back, the Amazon Store Card (Synchrony Bank), and the Amazon Secured Card for credit building.',
+    hint: 'Accepts all major networks (Visa, MC, Amex, Discover, JCB) and Amazon co-branded cards.',
+    referenceSource: 'Amazon Accepted Payment Methods - Card Networks & Store Cards',
+    isVerified: true
+  },
+  {
+    id: 'pay-015',
+    category: 'payments_concessions',
+    topic: '39. Payment Methods and Types (Credit/Debit, Amazon Store Card, Prime Visa, Gift Cards, SNAP EBT, HSA/FSA, Affirm, Prohibited Methods)',
+    difficulty: 'intermediate',
+    type: 'single_choice',
+    question: 'What are the primary terms, restrictions, and expiration rules governing Amazon Gift Cards and Gift Card Balances?',
+    options: [
+      { id: 'opt_1', text: 'Amazon Gift Cards expire after 30 days and have a $5 monthly inactivity fee.', distractorReason: 'Amazon Gift Cards never expire and have zero fees.' },
+      { id: 'opt_2', text: 'Amazon Gift Card balances never expire, incur zero maintenance or dormancy fees, but cannot be used to purchase other Amazon or third-party gift cards and cannot be redeemed for cash (except where required by law).', distractorReason: '' },
+      { id: 'opt_3', text: 'Gift cards can only be redeemed to buy fresh fruits.', distractorReason: 'Valid across Amazon\'s catalog.' },
+      { id: 'opt_4', text: 'Gift cards can be withdrawn at any ATM as physical hundred-dollar bills.', distractorReason: 'Cannot be redeemed for cash.' }
+    ],
+    correctAnswerIds: ['opt_2'],
+    explanation: 'Under Amazon policy and federal gift card laws, Amazon.com Gift Cards have no expiration dates and no service fees. However, anti-money laundering regulations prohibit using an Amazon Gift Card balance to purchase other Amazon Gift Cards or third-party gift cards (e.g. Apple, Google Play), and balances are non-refundable for cash.',
+    hint: 'Gift cards never expire and have zero fees, but cannot purchase other gift cards or be redeemed for cash.',
+    referenceSource: 'Amazon Gift Card Terms and Conditions & Compliance Guidelines',
+    isVerified: true
+  },
+  {
+    id: 'pay-016',
+    category: 'payments_concessions',
+    topic: '39. Payment Methods and Types (Credit/Debit, Amazon Store Card, Prime Visa, Gift Cards, SNAP EBT, HSA/FSA, Affirm, Prohibited Methods)',
+    difficulty: 'intermediate',
+    type: 'single_choice',
+    question: 'How does Amazon accept and process SNAP EBT (Supplemental Nutrition Assistance Program) payments on Amazon Fresh and Whole Foods Market?',
+    options: [
+      { id: 'opt_1', text: 'SNAP EBT can be used to buy electronics, televisions, and alcoholic beverages.', distractorReason: 'SNAP EBT is strictly restricted to USDA-eligible grocery items.' },
+      { id: 'opt_2', text: 'SNAP EBT cards can be used to purchase eligible food and grocery items; however, non-food items, delivery fees, and tips must be paid with a secondary payment method (such as a credit/debit card or gift card).', distractorReason: '' },
+      { id: 'opt_3', text: 'SNAP EBT cannot be split with any other payment card.', distractorReason: 'Amazon supports split payments for SNAP baskets.' },
+      { id: 'opt_4', text: 'SNAP EBT is only accepted on Amazon on Sundays.', distractorReason: 'Accepted 24/7.' }
+    ],
+    correctAnswerIds: ['opt_2'],
+    explanation: 'Customers can link valid SNAP EBT cards to purchase USDA-eligible food items on Amazon.com, Amazon Fresh, and Whole Foods. Federal regulations prohibit using SNAP EBT for non-food items, alcohol, delivery fees, or driver tips; Amazon\'s checkout allows customers to pay those ineligible portions with a secondary card.',
+    hint: 'SNAP EBT pays for eligible food items only; non-food items, fees, and tips require a secondary payment method.',
+    referenceSource: 'Amazon Grocery - SNAP EBT Payment Guidelines & Split-Tender Rules',
+    isVerified: true
+  },
+  {
+    id: 'pay-017',
+    category: 'payments_concessions',
+    topic: '39. Payment Methods and Types (Credit/Debit, Amazon Store Card, Prime Visa, Gift Cards, SNAP EBT, HSA/FSA, Affirm, Prohibited Methods)',
+    difficulty: 'intermediate',
+    type: 'single_choice',
+    question: 'What terms and conditions apply when a customer uses an HSA (Health Savings Account) or FSA (Flexible Spending Account) card to purchase items on Amazon?',
+    options: [
+      { id: 'opt_1', text: 'HSA/FSA cards can be used to buy video games and jewelry.', distractorReason: 'Limited to IRS-eligible healthcare.' },
+      { id: 'opt_2', text: 'HSA/FSA cards can only be used to pay for IRS-eligible medical, diagnostic, first-aid, optical, and healthcare products designated as "HSA/FSA Eligible" on Amazon; ineligible items in the same basket must be paid with another card.', distractorReason: '' },
+      { id: 'opt_3', text: 'HSA/FSA cards are only accepted if the customer mails a doctor\'s note to Seattle headquarters.', distractorReason: 'Eligibility is determined automatically at checkout.' },
+      { id: 'opt_4', text: 'HSA/FSA cards incur a 50% Amazon processing penalty.', distractorReason: 'No fees charged.' }
+    ],
+    correctAnswerIds: ['opt_2'],
+    explanation: 'Amazon has an extensive HSA/FSA Store. Products designated as HSA/FSA Eligible (e.g. prescription glasses, sunscreen SPF 15+, first aid kits, glucose monitors) can be purchased using an HSA/FSA debit card. If a customer\'s cart contains mixed items, checkout splits the eligible items to the HSA/FSA card.',
+    hint: 'HSA/FSA cards can only pay for IRS-designated healthcare items; other items require a separate card.',
+    referenceSource: 'Amazon HSA/FSA Store Guidelines & IRS Compliance',
+    isVerified: true
+  },
+  {
+    id: 'pay-018',
+    category: 'payments_concessions',
+    topic: '40. Payment Policies',
+    difficulty: 'beginner',
+    type: 'single_choice',
+    question: 'A customer calls asking to pay for an order on Amazon.com (US) using Cash on Delivery (COD), a personal paper check, or a money order sent by mail. What must the associate explain?',
+    options: [
+      { id: 'opt_1', text: 'The customer can mail cash in an unmarked envelope to the local warehouse.', distractorReason: 'Never mail cash; not accepted.' },
+      { id: 'opt_2', text: 'Amazon.com (US) does NOT accept Cash on Delivery (COD), personal paper checks, cashier\'s checks, money orders, or direct cash by mail; payments must be made using accepted electronic methods (cards, Amazon Gift Card, SNAP EBT, or Affirm).', distractorReason: '' },
+      { id: 'opt_3', text: 'Paper checks are accepted if written in purple ink.', distractorReason: 'False.' },
+      { id: 'opt_4', text: 'COD is mandatory for all orders over $10.', distractorReason: 'COD does not exist on Amazon.com US.' }
+    ],
+    correctAnswerIds: ['opt_2'],
+    explanation: 'On Amazon.com (US), Cash on Delivery (COD), personal checks, cashier\'s checks, and money orders are strictly not accepted. Payment must be transacted electronically via valid credit/debit cards, Amazon Store Card, Amazon Gift Cards, SNAP EBT, HSA/FSA, or Affirm financing.',
+    hint: 'Amazon.com (US) does NOT accept COD, personal checks, cashier\'s checks, or money orders.',
+    referenceSource: 'Amazon Payments - Unacceptable Payment Methods Policy SOP',
     isVerified: true
   },
 
@@ -1419,6 +2028,101 @@ export const VERIFIED_QUESTION_BANK: VoiceQuizQuestion[] = [
     explanation: 'Because Fulfilled by Amazon (FBA) items are warehoused and shipped by Amazon logistics, Amazon CS has full administrative authority to dispatch zero-cost replacements directly. For MFN orders, replacement stock resides with the merchant, so Amazon CS cannot issue direct replacements.',
     hint: 'FBA orders allow direct Amazon CS replacements; MFN orders do not.',
     referenceSource: 'Amazon Customer Service Fulfillment Capabilities SOP',
+    isVerified: true
+  },
+  {
+    id: 'ful-009',
+    category: 'fulfillment_marketplace',
+    topic: '53. A-to-z Guarantee Claims (Eligibility, 48-Hour Seller Window, 90-Day Filing Rule, Covered Conditions, Associate Support & Seller Appeals)',
+    difficulty: 'intermediate',
+    type: 'single_choice',
+    question: 'Under Amazon\'s A-to-z Guarantee policy for Merchant Fulfilled Network (MFN) orders, what prerequisite action MUST a customer complete before they or a representative can submit a valid claim?',
+    options: [
+      { id: 'opt_1', text: 'The customer must file a complaint with their local municipal government.', distractorReason: 'Government filings are unrelated to Amazon customer care.' },
+      { id: 'opt_2', text: 'The customer must contact the third-party seller through Buyer-Seller Messaging in "Your Orders" and allow 48 full hours for the seller to resolve the issue.', distractorReason: '' },
+      { id: 'opt_3', text: 'The customer must cancel their Amazon Prime membership.', distractorReason: 'Prime membership is unrelated to A-to-z eligibility.' },
+      { id: 'opt_4', text: 'The customer must wait at least 180 days before contacting anyone.', distractorReason: '180 days exceeds the standard 90-day filing window.' }
+    ],
+    correctAnswerIds: ['opt_2'],
+    explanation: 'The fundamental prerequisite for an A-to-z Guarantee Claim is contacting the seller directly through Amazon\'s Buyer-Seller Messaging service. The seller must be allowed a mandatory 48-hour SLA window to respond and offer a remedy before Amazon intervenes with an A-to-z Guarantee Claim.',
+    hint: 'The buyer must message the third-party seller and wait 48 hours for a resolution.',
+    referenceSource: 'Amazon Marketplace Policy - A-to-z Guarantee Customer Eligibility SOP',
+    isVerified: true
+  },
+  {
+    id: 'ful-010',
+    category: 'fulfillment_marketplace',
+    topic: '53. A-to-z Guarantee Claims (Eligibility, 48-Hour Seller Window, 90-Day Filing Rule, Covered Conditions, Associate Support & Seller Appeals)',
+    difficulty: 'intermediate',
+    type: 'single_choice',
+    question: 'What is the official filing time limit for a customer to submit an Amazon A-to-z Guarantee Claim for an MFN order?',
+    options: [
+      { id: 'opt_1', text: 'Up to 14 days after placing the initial order.', distractorReason: 'Too short; many orders haven\'t even completed delivery.' },
+      { id: 'opt_2', text: 'Up to 90 days from the maximum Estimated Delivery Date (EDD).', distractorReason: '' },
+      { id: 'opt_3', text: 'Strictly within 24 hours of package dispatch.', distractorReason: 'Packages cannot be claimed before delivery occurs.' },
+      { id: 'opt_4', text: 'Indefinitely with no expiration deadline ever.', distractorReason: 'Claims must adhere to the 90-day filing cutoff.' }
+    ],
+    correctAnswerIds: ['opt_2'],
+    explanation: 'Amazon customers have up to 90 days from the maximum estimated delivery date (EDD) to submit an A-to-z Guarantee Claim. In rare exceptional circumstances (e.g., ongoing fraud investigations or verified shipping carrier errors), Amazon CS leadership may grant exceptions, but 90 days is the standard policy window.',
+    hint: 'The standard window extends up to 90 days from the maximum estimated delivery date.',
+    referenceSource: 'Amazon Customer Service Guidelines - A-to-z Claim Timelines & Windows',
+    isVerified: true
+  },
+  {
+    id: 'ful-011',
+    category: 'fulfillment_marketplace',
+    topic: '53. A-to-z Guarantee Claims (Eligibility, 48-Hour Seller Window, 90-Day Filing Rule, Covered Conditions, Associate Support & Seller Appeals)',
+    difficulty: 'advanced',
+    type: 'single_choice',
+    question: 'Which of the following customer situations qualifies for coverage and reimbursement under Amazon\'s A-to-z Guarantee?',
+    options: [
+      { id: 'opt_1', text: 'The customer received an item from Amazon Retail and simply changed their mind after 60 days.', distractorReason: 'A-to-z applies to third-party seller MFN purchases, not out-of-policy Amazon Retail buyer\'s remorse.' },
+      { id: 'opt_2', text: 'The MFN item has not arrived 3 calendar days after the maximum estimated delivery date, or the item arrived damaged/materially different, and the seller has failed to provide a resolution within 48 hours of contact.', distractorReason: '' },
+      { id: 'opt_3', text: 'The customer bought an item from an external competitor\'s website using cash.', distractorReason: 'Amazon cannot protect off-platform transactions.' },
+      { id: 'opt_4', text: 'The customer wants a refund because the price of the item on Amazon dropped a week later.', distractorReason: 'Price matching after purchase is not covered by A-to-z.' }
+    ],
+    correctAnswerIds: ['opt_2'],
+    explanation: 'The A-to-z Guarantee protects buyers when: 1) the order hasn\'t arrived 3 days past the latest EDD; 2) the product is defective, damaged, or materially different from the ASIN description; 3) the buyer returned the item with tracking but the seller didn\'t refund within 48 hours; or 4) the seller charged unauthorized customs/shipping fees. In all cases, the 48-hour contact window applies.',
+    hint: 'Covers orders missing 3+ days past EDD or materially defective/different MFN items after 48h seller silence.',
+    referenceSource: 'Amazon Buyer Protection - A-to-z Guarantee Covered Conditions SOP',
+    isVerified: true
+  },
+  {
+    id: 'ful-012',
+    category: 'fulfillment_marketplace',
+    topic: '53. A-to-z Guarantee Claims (Eligibility, 48-Hour Seller Window, 90-Day Filing Rule, Covered Conditions, Associate Support & Seller Appeals)',
+    difficulty: 'advanced',
+    type: 'single_choice',
+    question: 'A customer calls stating: "I returned an MFN lawnmower to the seller 5 business days ago. The UPS return tracking shows \'Delivered to Seller\' on Monday, but the seller has not refunded my $400. I messaged them 3 days ago with no answer." How must the voice associate handle this call?',
+    options: [
+      { id: 'opt_1', text: 'Tell the customer that returned merchandise is forfeited if the seller refuses to reply.', distractorReason: 'Completely false and harmful to customer trust.' },
+      { id: 'opt_2', text: 'Verify the carrier return tracking showing delivery to the seller, confirm that more than 48 hours have elapsed since delivery/contact without a refund, and assist the customer in submitting an A-to-z Guarantee Claim for the full refund.', distractorReason: '' },
+      { id: 'opt_3', text: 'Transfer the customer directly to the local post office in the seller\'s state.', distractorReason: 'Deflecting to external carriers is an FCR failure.' },
+      { id: 'opt_4', text: 'Ask the customer to drive to the seller\'s business location to demand cash in person.', distractorReason: 'Violates safety and customer service policies.' }
+    ],
+    correctAnswerIds: ['opt_2'],
+    explanation: 'When a customer returns an MFN item with verifiable tracking, sellers are required by Amazon policy to issue a refund within 48 hours of receiving the returned package. If 48 hours have elapsed and the seller has not refunded or responded to messages, the associate initiates an A-to-z Guarantee Claim for the buyer.',
+    hint: 'When return delivery to the seller is verified and 48 hours have passed without refund, initiate an A-to-z claim.',
+    referenceSource: 'Amazon Marketplace Returns & A-to-z Claim Resolution SOP',
+    isVerified: true
+  },
+  {
+    id: 'ful-013',
+    category: 'fulfillment_marketplace',
+    topic: '53. A-to-z Guarantee Claims (Eligibility, 48-Hour Seller Window, 90-Day Filing Rule, Covered Conditions, Associate Support & Seller Appeals)',
+    difficulty: 'intermediate',
+    type: 'single_choice',
+    question: 'When an A-to-z Guarantee Claim is decided in favor of the customer and Amazon issues a refund, what rights and timeline does the third-party seller have if they believe the claim was granted erroneously?',
+    options: [
+      { id: 'opt_1', text: 'The seller has zero appeal rights and is automatically banned from Amazon permanently.', distractorReason: 'Amazon provides due process and an appeals window for sellers.' },
+      { id: 'opt_2', text: 'The seller has 30 calendar days to submit an appeal with supporting evidence (such as signed proof of delivery or return inspection notes) to Seller Performance.', distractorReason: '' },
+      { id: 'opt_3', text: 'The seller must call the customer\'s personal cell phone to negotiate a cash settlement.', distractorReason: 'Direct off-Amazon contact violates Buyer-Seller Messaging policies.' },
+      { id: 'opt_4', text: 'The seller can reverse the customer\'s bank deposit within 1 hour.', distractorReason: 'Sellers have no direct access to customer banking.' }
+    ],
+    correctAnswerIds: ['opt_2'],
+    explanation: 'Sellers are notified when an A-to-z claim is granted and have 30 calendar days to appeal the decision in Seller Central. If the seller provides proof of signature delivery or evidence that the buyer\'s claim was inaccurate, Amazon may reverse the defect or fund the claim from Amazon\'s own reserves rather than debiting the merchant.',
+    hint: 'Sellers have 30 calendar days to submit an appeal with valid supporting documentation.',
+    referenceSource: 'Amazon Seller Performance - A-to-z Claim Appeals & Adjudication Rules',
     isVerified: true
   },
 
@@ -1611,6 +2315,196 @@ export const VERIFIED_QUESTION_BANK: VoiceQuizQuestion[] = [
     explanation: 'Subscribers receive a monthly reminder email notifying them that their subscription is preparing to ship. This email specifies the "Last day to review or change items". Once this cut-off deadline passes, the order locks into the warehouse packing queue and charges are processed upon dispatch.',
     hint: 'Subscriptions lock a few days before delivery on the "Last day to edit" cutoff date.',
     referenceSource: 'Amazon Subscribe & Save Order Lock & Fulfillment Guidelines',
+    isVerified: true
+  },
+  {
+    id: 'prm-011',
+    category: 'prime_subscriptions',
+    topic: '61. Subscribe & Save Discounts (5% for 1-4 items, 15% for 5+ items)',
+    difficulty: 'beginner',
+    type: 'single_choice',
+    question: 'What is the official tiered discount structure for Amazon Subscribe & Save (S&S) orders delivered to the same address on the customer\'s recurring monthly delivery day?',
+    options: [
+      { id: 'opt_1', text: 'All subscriptions always receive a flat 50% discount regardless of quantity.', distractorReason: 'Unsustainable and false.' },
+      { id: 'opt_2', text: '1 to 4 subscriptions delivered together receive a 5% base discount; reaching 5 or more subscriptions delivered together on the same monthly delivery day unlocks the tiered 15% discount (up to 20% on select diapers/wipes with Prime).', distractorReason: '' },
+      { id: 'opt_3', text: 'There are no discounts; Subscribe & Save costs 10% more than standard one-time purchases.', distractorReason: 'S&S offers savings, not surcharges.' },
+      { id: 'opt_4', text: 'Only corporate business accounts can receive any Subscribe & Save discount.', distractorReason: 'S&S is available to all consumer accounts.' }
+    ],
+    correctAnswerIds: ['opt_2'],
+    explanation: 'Amazon Subscribe & Save rewards bundled recurring deliveries: 1 to 4 eligible subscriptions arriving on the same monthly delivery day earn a 5% discount. Subscribing to 5 or more items in the same monthly delivery unlocks the 15% tier discount across all items. Prime members can also unlock up to 20% off on diapers and baby food.',
+    hint: '1-4 items earn 5% discount; 5 or more items unlock 15% discount.',
+    referenceSource: 'Amazon Subscribe & Save Terms - Tiered Volume Discounts SOP',
+    isVerified: true
+  },
+  {
+    id: 'prm-012',
+    category: 'prime_subscriptions',
+    topic: '62. Recurring Deliveries (Frequencies from 2 Weeks to 6 Months)',
+    difficulty: 'intermediate',
+    type: 'single_choice',
+    question: 'How flexible are delivery frequencies for Amazon Subscribe & Save subscriptions, and who controls the scheduling?',
+    options: [
+      { id: 'opt_1', text: 'The customer can choose delivery frequencies ranging from every 2 weeks up to every 6 months, and can adjust the frequency at any time in "Your Subscribe & Save".', distractorReason: '' },
+      { id: 'opt_2', text: 'Deliveries must occur every single day, with no option to change.', distractorReason: 'Daily subscriptions do not exist.' },
+      { id: 'opt_3', text: 'Amazon algorithms decide the date without notifying the customer.', distractorReason: 'Customers select and manage delivery frequencies.' },
+      { id: 'opt_4', text: 'Frequencies can only be changed once every 5 years.', distractorReason: 'Modifications can be made every billing cycle.' }
+    ],
+    correctAnswerIds: ['opt_1'],
+    explanation: 'Subscribe & Save offers extensive flexibility: customers select repeat intervals (every 2 weeks, or monthly from 1 to 6 months). Customers can change their frequency, alter quantities, or group multiple subscriptions onto a unified monthly delivery day directly in their account settings.',
+    hint: 'Frequencies range from every 2 weeks up to every 6 months and can be adjusted anytime.',
+    referenceSource: 'Amazon Customer Service - Subscribe & Save Scheduling & Cadence',
+    isVerified: true
+  },
+  {
+    id: 'prm-013',
+    category: 'prime_subscriptions',
+    topic: '63. Skipping, Modifying, and Cancelling Subscriptions (Zero Fee Flexibility)',
+    difficulty: 'intermediate',
+    type: 'single_choice',
+    question: 'A customer has an upcoming Subscribe & Save shipment scheduled for next week, but they still have plenty of laundry detergent left from their previous order. What options does the customer have?',
+    options: [
+      { id: 'opt_1', text: 'The customer is legally forced to accept the shipment or face account termination.', distractorReason: 'False and hostile.' },
+      { id: 'opt_2', text: 'The customer can easily "Skip" the upcoming delivery or cancel the subscription completely with zero fees or penalties prior to the order processing cutoff date.', distractorReason: '' },
+      { id: 'opt_3', text: 'The customer must pay a $25 subscription cancellation penalty.', distractorReason: 'Amazon charges zero fees to cancel or skip.' },
+      { id: 'opt_4', text: 'The customer must return their entire washing machine to cancel.', distractorReason: 'Absurd distractor.' }
+    ],
+    correctAnswerIds: ['opt_2'],
+    explanation: 'Customers maintain full control over their Subscribe & Save subscriptions: they can skip individual deliveries, change the next delivery date, modify item quantities, or cancel subscriptions entirely at any time without fees, as long as the change is made before the order enters shipping.',
+    hint: 'Customers can skip deliveries or cancel subscriptions anytime with zero fees before shipping cutoff.',
+    referenceSource: 'Amazon Subscribe & Save Management - Skip and Cancellation Guidelines',
+    isVerified: true
+  },
+  {
+    id: 'prm-014',
+    category: 'prime_subscriptions',
+    topic: '60. Amazon Subscribe & Save',
+    difficulty: 'intermediate',
+    type: 'single_choice',
+    question: 'A customer calls complaining: "When I set up my coffee subscription 4 months ago, it was $10 a bag. On this month\'s renewal, I was charged $12! Why didn\'t Amazon keep the price locked at $10 forever?" What is Amazon\'s policy regarding Subscribe & Save pricing?',
+    options: [
+      { id: 'opt_1', text: 'All Subscribe & Save prices are constitutionally guaranteed never to change for 50 years.', distractorReason: 'Prices fluctuate based on market retail price.' },
+      { id: 'opt_2', text: 'Subscribe & Save charges the current price of the item on the day the order is processed (minus the 5% or 15% discount); Amazon sends a reminder email listing the price before the order ships, allowing the customer to review, skip, or cancel.', distractorReason: '' },
+      { id: 'opt_3', text: 'The agent should refund all past coffee purchases over the last 4 months.', distractorReason: 'Concession policy violation.' },
+      { id: 'opt_4', text: 'Third-party sellers can charge whatever they want without notice.', distractorReason: 'Amazon always sends advance pricing notifications.' }
+    ],
+    correctAnswerIds: ['opt_2'],
+    explanation: 'Subscribe & Save item prices fluctuate with general Amazon marketplace pricing. The price charged is the product\'s selling price on the day the subscription order is generated, minus the applicable 5% or 15% S&S discount. Amazon sends an advance email reminder several days before order processing displaying the current price.',
+    hint: 'S&S charges the current item price on the date the order processes, with an advance email reminder sent.',
+    referenceSource: 'Amazon Subscribe & Save Terms - Price Fluctuations & Notification SOP',
+    isVerified: true
+  },
+  {
+    id: 'prm-015',
+    category: 'prime_subscriptions',
+    topic: '60. Amazon Subscribe & Save',
+    difficulty: 'advanced',
+    type: 'single_choice',
+    question: 'What happens when a product enrolled in a customer\'s Subscribe & Save subscription is temporarily out of stock at Amazon fulfillment centers on their scheduled delivery date?',
+    options: [
+      { id: 'opt_1', text: 'The customer\'s entire Amazon account is closed.', distractorReason: 'Out of stock inventory does not affect account standing.' },
+      { id: 'opt_2', text: 'Amazon notifies the customer and automatically skips that item for the delivery cycle without charging the customer; or, if the customer enabled automatic substitutions, Amazon may substitute a similar item of equal or better value at no extra cost.', distractorReason: '' },
+      { id: 'opt_3', text: 'Amazon charges the customer full price and sends an empty envelope.', distractorReason: 'Fraudulent and impossible.' },
+      { id: 'opt_4', text: 'The customer is charged a restocking penalty fee.', distractorReason: 'Amazon never charges penalties for out-of-stock items.' }
+    ],
+    correctAnswerIds: ['opt_2'],
+    explanation: 'When an S&S item is temporarily unavailable, Amazon will attempt to ship it as soon as inventory arrives, or skip the delivery for that month with zero charge to the customer. For eligible everyday essentials, customers can opt into automatic substitution where a similar brand/size is provided.',
+    hint: 'Out-of-stock S&S deliveries are skipped with zero charge or fulfilled with an approved substitution.',
+    referenceSource: 'Amazon S&S Operations - Out of Stock & Product Substitution Guidelines',
+    isVerified: true
+  },
+  {
+    id: 'prm-016',
+    category: 'prime_subscriptions',
+    topic: '55. Types of Amazon Prime Subscriptions (Standard Annual, Standard Monthly, Prime Student, Prime Access, Prime Video Standalone)',
+    difficulty: 'beginner',
+    type: 'single_choice',
+    question: 'What are the primary consumer tiers and pricing structures available for Amazon Prime memberships in North America?',
+    options: [
+      { id: 'opt_1', text: 'Standard Prime Annual ($139/year), Standard Prime Monthly ($14.99/month), Prime Student ($69/year or $7.49/month), Prime Access / Qualified Assistance ($6.99/month), and Prime Video-only ($8.99/month).', distractorReason: '' },
+      { id: 'opt_2', text: 'Only one single tier exists: $500 per month for everyone.', distractorReason: 'False.' },
+      { id: 'opt_3', text: 'Prime is completely free for everyone in the world with no tiers.', distractorReason: 'Prime is a paid membership program.' },
+      { id: 'opt_4', text: 'Subscriptions can only be paid by trading used electronics.', distractorReason: 'Absurd.' }
+    ],
+    correctAnswerIds: ['opt_1'],
+    explanation: 'Amazon Prime in the US features multiple tiers tailored to customer demographics: Standard Annual ($139/yr), Standard Monthly ($14.99/mo), Prime Student (50% off for verified college students), Prime Access ($6.99/mo for government assistance recipients), and a standalone Prime Video streaming subscription ($8.99/mo).',
+    hint: 'Includes Standard Annual ($139), Monthly ($14.99), Student ($69/$7.49), Prime Access ($6.99), and Prime Video ($8.99).',
+    referenceSource: 'Amazon Prime Pricing Matrix & Subscription Tiers',
+    isVerified: true
+  },
+  {
+    id: 'prm-017',
+    category: 'prime_subscriptions',
+    topic: '55. Types of Amazon Prime Subscriptions (Standard Annual, Standard Monthly, Prime Student, Prime Access, Prime Video Standalone)',
+    difficulty: 'intermediate',
+    type: 'single_choice',
+    question: 'What are the specific eligibility requirements and benefits associated with the "Prime Student" membership tier?',
+    options: [
+      { id: 'opt_1', text: 'Available to any person of any age who reads a book once a year.', distractorReason: 'Requires student status.' },
+      { id: 'opt_2', text: 'Requires an active .edu college/university email address or proof of current higher education enrollment; includes a 6-month sponsored trial, followed by a 50% discounted membership rate ($7.49/mo or $69/yr) for up to 4 years or until graduation.', distractorReason: '' },
+      { id: 'opt_3', text: 'Requires attending kindergarten in Washington state.', distractorReason: 'Designed for higher education.' },
+      { id: 'opt_4', text: 'Only offers free shipping on textbooks, with zero video or music access.', distractorReason: 'Prime Student includes Prime Video, Music, and gaming.' }
+    ],
+    correctAnswerIds: ['opt_2'],
+    explanation: 'Prime Student provides college and university students with a 6-month free trial, after which the membership renews at 50% off standard Prime ($7.49/month or $69/year). Students verify eligibility with a valid .edu email address or official enrollment documentation, valid for up to 4 years or graduation.',
+    hint: 'Requires active college enrollment (.edu email), provides a 6-month trial and 50% off for up to 4 years.',
+    referenceSource: 'Amazon Prime Student Terms & Verification Guidelines',
+    isVerified: true
+  },
+  {
+    id: 'prm-018',
+    category: 'prime_subscriptions',
+    topic: '55. Types of Amazon Prime Subscriptions (Standard Annual, Standard Monthly, Prime Student, Prime Access, Prime Video Standalone)',
+    difficulty: 'intermediate',
+    type: 'single_choice',
+    question: 'What is "Prime Access" (Government Assistance Discount), and which customers qualify for this discounted membership tier?',
+    options: [
+      { id: 'opt_1', text: 'It is a special tier for Amazon corporate executives only.', distractorReason: 'Designed for qualifying assistance recipients.' },
+      { id: 'opt_2', text: 'It is a discounted Prime membership at $6.99/month for recipients of qualifying government assistance programs (such as SNAP EBT, Medicaid, SSI, TANF, WIC, or Direct Express), requiring document verification renewed every 12 months.', distractorReason: '' },
+      { id: 'opt_3', text: 'A free tier for anyone who asks for a discount on voice calls.', distractorReason: 'Requires verified program documentation.' },
+      { id: 'opt_4', text: 'A tier that only works between 2 AM and 4 AM.', distractorReason: 'Full 24/7 Prime access.' }
+    ],
+    correctAnswerIds: ['opt_2'],
+    explanation: 'Amazon Prime Access provides all standard Prime shipping, video, and shopping benefits at a reduced price of $6.99/month to ensure equitable access. Qualification requires uploading proof of participation in government programs (e.g. SNAP EBT card, Medicaid card, SSI letter), with annual re-verification.',
+    hint: '$6.99/month for recipients of qualifying government assistance programs like SNAP EBT and Medicaid.',
+    referenceSource: 'Amazon Prime Access - Government Assistance Discount SOP',
+    isVerified: true
+  },
+  {
+    id: 'prm-019',
+    category: 'prime_subscriptions',
+    topic: '55. Types of Amazon Prime Subscriptions (Standard Annual, Standard Monthly, Prime Student, Prime Access, Prime Video Standalone)',
+    difficulty: 'intermediate',
+    type: 'single_choice',
+    question: 'A customer calls asking why they are being charged for shipping on their Amazon order even though they subscribe to the "$8.99/month Prime Video" plan. What must the associate explain?',
+    options: [
+      { id: 'opt_1', text: 'Shipping is free, but the associate must manually push a secret button for every order.', distractorReason: 'False.' },
+      { id: 'opt_2', text: 'The $8.99/month standalone Prime Video subscription provides access strictly to the Prime Video streaming catalog; it does NOT include free Prime shipping or shopping benefits, which require upgrading to standard Prime.', distractorReason: '' },
+      { id: 'opt_3', text: 'The customer\'s package was stolen by the carrier.', distractorReason: 'Unrelated to subscription tier.' },
+      { id: 'opt_4', text: 'The customer must pay $1,000 to unlock shipping.', distractorReason: 'Standard Prime upgrade is $14.99/mo.' }
+    ],
+    correctAnswerIds: ['opt_2'],
+    explanation: 'The standalone Prime Video plan ($8.99/month) is designed exclusively for video streaming customers who do not shop on Amazon. It does not include free fast delivery, Prime Reading, Prime Music, or early access to deals. To receive free shipping, the customer must upgrade to full Prime.',
+    hint: 'Prime Video-only plan ($8.99/mo) includes streaming only, not free shipping benefits.',
+    referenceSource: 'Amazon Digital Video - Prime Video Standalone Plan Policies',
+    isVerified: true
+  },
+  {
+    id: 'prm-020',
+    category: 'prime_subscriptions',
+    topic: '56. Prime Membership Benefits and Amazon Household Sharing',
+    difficulty: 'intermediate',
+    type: 'single_choice',
+    question: 'How does "Amazon Household" allow customers to share Prime benefits, and what account boundaries are maintained?',
+    options: [
+      { id: 'opt_1', text: 'Both users must merge into a single account and share the same password and email.', distractorReason: 'Accounts remain completely separate.' },
+      { id: 'opt_2', text: 'Up to two adults can link their separate Amazon accounts to share Prime shipping, Prime Video, and digital books, while keeping their personal browsing history, order history, and payment cards private.', distractorReason: '' },
+      { id: 'opt_3', text: 'Anyone on the same street gets free shipping automatically.', distractorReason: 'Household requires linking accounts.' },
+      { id: 'opt_4', text: 'Household sharing costs $50 per month extra.', distractorReason: 'Household sharing is a free Prime benefit.' }
+    ],
+    correctAnswerIds: ['opt_2'],
+    explanation: 'Amazon Household allows two adults with individual Amazon accounts to link together in a household. They share Prime benefits (free fast shipping, Prime Video streaming, digital library sharing via Family Library) while maintaining full account privacy (separate login, order history, and payment wallets).',
+    hint: 'Allows 2 adults to share Prime benefits while keeping accounts, orders, and payment cards separate.',
+    referenceSource: 'Amazon Household - Benefits Sharing & Account Separation SOP',
     isVerified: true
   },
 

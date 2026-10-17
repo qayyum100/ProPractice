@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   QuizConfig,
   VoiceCategoryKey,
@@ -6,7 +6,7 @@ import {
   QuestionType,
   PracticeMode
 } from '../../types/amazonVoice'
-import { VOICE_CATEGORIES } from '../../data/amazonVoiceQuestionBank'
+import { VOICE_CATEGORIES, PRIORITY_VOICE_TOPICS } from '../../data/amazonVoiceQuestionBank'
 import { amazonVoiceStorage } from '../../lib/amazonVoiceStorage'
 import {
   X,
@@ -16,7 +16,8 @@ import {
   Clock,
   BookOpen,
   Award,
-  CheckCircle2
+  CheckCircle2,
+  Target
 } from 'lucide-react'
 
 interface VoiceSetupModalProps {
@@ -24,17 +25,27 @@ interface VoiceSetupModalProps {
   onClose: () => void
   onStartQuiz: (config: QuizConfig, forceAiFresh?: boolean) => void
   initialCategory?: VoiceCategoryKey
+  initialFocusTopic?: string
 }
 
 export const VoiceSetupModal: React.FC<VoiceSetupModalProps> = ({
   isOpen,
   onClose,
   onStartQuiz,
-  initialCategory
+  initialCategory,
+  initialFocusTopic
 }) => {
   const [selectedCategories, setSelectedCategories] = useState<VoiceCategoryKey[]>(
     initialCategory ? [initialCategory] : []
   )
+  const [focusTopic, setFocusTopic] = useState<string>(initialFocusTopic || '')
+
+  useEffect(() => {
+    if (isOpen) {
+      setSelectedCategories(initialCategory ? [initialCategory] : [])
+      setFocusTopic(initialFocusTopic || '')
+    }
+  }, [isOpen, initialCategory, initialFocusTopic])
   const [difficulty, setDifficulty] = useState<QuestionDifficulty>('intermediate')
   const [questionCount, setQuestionCount] = useState<number>(10)
   const [questionType, setQuestionType] = useState<QuestionType>('single_choice')
@@ -74,7 +85,8 @@ export const VoiceSetupModal: React.FC<VoiceSetupModalProps> = ({
       questionCount,
       questionType,
       mode,
-      timeLimitSeconds: mode === 'timed' ? timeMinutes * 60 : undefined
+      timeLimitSeconds: mode === 'timed' ? timeMinutes * 60 : undefined,
+      focusTopic: focusTopic || undefined
     }
     onStartQuiz(config, forceAi)
   }
@@ -169,6 +181,58 @@ export const VoiceSetupModal: React.FC<VoiceSetupModalProps> = ({
                       <span className="text-[10px] px-1.5 py-0.5 rounded-md bg-neutral-100 dark:bg-neutral-800 text-neutral-500 shrink-0">
                         {cat.badge}
                       </span>
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+
+            {/* Priority Topic Focus Filter */}
+            <div className="space-y-2">
+              <div className="flex items-center justify-between text-xs">
+                <label className="font-bold uppercase tracking-wider text-neutral-500 flex items-center gap-1.5">
+                  <Target className="w-3.5 h-3.5 text-amber-500" />
+                  <span>Priority Focus Topic (Optional)</span>
+                </label>
+                {focusTopic && (
+                  <button
+                    type="button"
+                    onClick={() => setFocusTopic('')}
+                    className="text-amber-600 dark:text-amber-400 font-semibold hover:underline cursor-pointer text-[11px]"
+                  >
+                    Clear Focus Filter
+                  </button>
+                )}
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                {PRIORITY_VOICE_TOPICS.map((pt) => {
+                  const isTopicActive = focusTopic === pt.query
+                  return (
+                    <button
+                      key={pt.id}
+                      type="button"
+                      onClick={() => {
+                        if (isTopicActive) {
+                          setFocusTopic('')
+                        } else {
+                          setFocusTopic(pt.query)
+                          if (!selectedCategories.includes(pt.categoryKey)) {
+                            setSelectedCategories([...selectedCategories, pt.categoryKey])
+                          }
+                        }
+                      }}
+                      className={`p-2 rounded-xl border text-left transition-all cursor-pointer ${
+                        isTopicActive
+                          ? 'border-amber-500 bg-amber-500/10 text-neutral-900 dark:text-white font-bold ring-1 ring-amber-500'
+                          : 'border-neutral-200 dark:border-neutral-800 text-neutral-600 dark:text-neutral-400 hover:border-neutral-300'
+                      }`}
+                    >
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-amber-500 block mb-0.5">
+                        Topic {pt.number}
+                      </span>
+                      <p className="text-[11px] font-medium leading-snug line-clamp-1">
+                        {pt.shortTitle}
+                      </p>
                     </button>
                   )
                 })}

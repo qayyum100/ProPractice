@@ -80,6 +80,7 @@ export interface QuizConfig {
   mode: PracticeMode
   timeLimitSeconds?: number // For timed mode
   includeScenariosOnly?: boolean
+  focusTopic?: string // Optional specific syllabus topic drill (e.g. A-to-z, WMS, Subscribe & Save, etc.)
 }
 
 export interface UserAnswerState {

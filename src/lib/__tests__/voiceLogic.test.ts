@@ -8,7 +8,7 @@
  * 5. Gemini AI JSON Schema Validation & Sanitization
  */
 
-import { VERIFIED_QUESTION_BANK, VOICE_CATEGORIES } from '../../data/amazonVoiceQuestionBank'
+import { VERIFIED_QUESTION_BANK, VOICE_CATEGORIES, PRIORITY_VOICE_TOPICS } from '../../data/amazonVoiceQuestionBank'
 import { CALL_FLOW_SCENARIOS } from '../../data/amazonVoiceScenarios'
 import { VoiceCategoryKey } from '../../types/amazonVoice'
 
@@ -133,6 +133,42 @@ export function runVoiceTestSuite(): { passed: number; failed: number; errors: s
         `Stage ${stg.stageTitle} provides an exemplary compliant option`
       )
     })
+  })
+
+  // Test 6: Priority Voice Process Syllabus Topics (All 8 Core Focus Areas)
+  assert(
+    Array.isArray(PRIORITY_VOICE_TOPICS) && PRIORITY_VOICE_TOPICS.length === 8,
+    'PRIORITY_VOICE_TOPICS contains all 8 core voice process syllabus topics'
+  )
+
+  const expectedTopicIds = [
+    'a_to_z',
+    'wms',
+    'returns_refunds_exceptions',
+    'order_item_types',
+    'subscribe_save',
+    'payment_charges',
+    'amazon_prime_types',
+    'payment_methods'
+  ]
+
+  expectedTopicIds.forEach((expectedId) => {
+    const topic = PRIORITY_VOICE_TOPICS.find((t) => t.id === expectedId)
+    assert(!!topic, `Priority topic definition exists for: ${expectedId}`)
+
+    if (topic) {
+      const qTerm = topic.query.toLowerCase()
+      const matchingQuestions = VERIFIED_QUESTION_BANK.filter(
+        (q) =>
+          q.topic.toLowerCase().includes(qTerm) ||
+          q.question.toLowerCase().includes(qTerm) ||
+          q.explanation.toLowerCase().includes(qTerm)
+      )
+      assert(
+        matchingQuestions.length >= 5,
+        `Topic "${topic.title}" (#${topic.number}) has at least 5 matching questions (found ${matchingQuestions.length})`
+      )
+    }
   })
 
   console.log(`--- Unit Tests Finished: ${passed} Passed, ${failed} Failed ---`)

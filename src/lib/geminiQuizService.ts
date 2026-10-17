@@ -31,6 +31,16 @@ function filterFromPool(
     if (config.questionType !== 'mixed' && q.type !== config.questionType) {
       return false
     }
+    // Focus topic filter if specified
+    if (config.focusTopic && config.focusTopic.trim().length > 0) {
+      const term = config.focusTopic.toLowerCase().trim()
+      const matchesTopic = q.topic.toLowerCase().includes(term)
+      const matchesQuestion = q.question.toLowerCase().includes(term)
+      const matchesExplanation = q.explanation.toLowerCase().includes(term)
+      if (!matchesTopic && !matchesQuestion && !matchesExplanation) {
+        return false
+      }
+    }
     return true
   })
 }
@@ -65,6 +75,22 @@ export const geminiQuizService = {
         return {
           questions: combinedPool.slice(0, desiredCount),
           source: verifiedMatches.length >= desiredCount ? 'verified_bank' : 'cached_ai'
+        }
+      }
+
+      // If a specific focus topic was requested and we have matching verified questions,
+      // prioritize all matching questions, then pad with related module questions up to desiredCount
+      if (config.focusTopic && combinedPool.length > 0) {
+        const remainingNeeded = desiredCount - combinedPool.length
+        const categoryPool = VERIFIED_QUESTION_BANK.filter(
+          (q) =>
+            !combinedPool.some((m) => m.id === q.id) &&
+            (config.categories.length === 0 || config.categories.includes(q.category))
+        )
+        const padded = shuffle(categoryPool).slice(0, remainingNeeded)
+        return {
+          questions: [...combinedPool, ...padded],
+          source: 'verified_bank'
         }
       }
     }
@@ -130,9 +156,21 @@ export const geminiQuizService = {
 
     // 4. Ultimate fallback: Serve best-effort matched questions from verified bank
     const fallbackMatches = filterFromPool(VERIFIED_QUESTION_BANK, config)
-    const questionsToReturn = fallbackMatches.length >= desiredCount
-      ? shuffle(fallbackMatches).slice(0, desiredCount)
-      : shuffle(VERIFIED_QUESTION_BANK).slice(0, desiredCount)
+    let questionsToReturn: VoiceQuizQuestion[]
+    if (fallbackMatches.length >= desiredCount) {
+      questionsToReturn = shuffle(fallbackMatches).slice(0, desiredCount)
+    } else if (fallbackMatches.length > 0) {
+      const remainingNeeded = desiredCount - fallbackMatches.length
+      const categoryPool = VERIFIED_QUESTION_BANK.filter(
+        (q) =>
+          !fallbackMatches.some((m) => m.id === q.id) &&
+          (config.categories.length === 0 || config.categories.includes(q.category))
+      )
+      const padded = shuffle(categoryPool).slice(0, remainingNeeded)
+      questionsToReturn = [...fallbackMatches, ...padded]
+    } else {
+      questionsToReturn = shuffle(VERIFIED_QUESTION_BANK).slice(0, desiredCount)
+    }
 
     return {
       questions: questionsToReturn,
