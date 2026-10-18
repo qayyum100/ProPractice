@@ -23,7 +23,8 @@ import {
   Code2,
   ChevronRight,
   Sparkles,
-  Headphones
+  Headphones,
+  BookOpen
 } from 'lucide-react'
 
 export const Header: React.FC = () => {
@@ -75,6 +76,7 @@ export const Header: React.FC = () => {
   ]
 
   const extraMobileLinks = [
+    { label: 'Beginner MCQs', path: '/voice-beginner-mcqs', icon: <BookOpen className="w-4 h-4 text-cyan-500" /> },
     { label: 'Custom Tests', path: '/custom-tests', icon: <Code2 className="w-4 h-4" /> },
     { label: 'Dashboard', path: '/dashboard', icon: <LayoutDashboard className="w-4 h-4" /> },
     { label: 'Achievements', path: '/achievements', icon: <Trophy className="w-4 h-4" /> },

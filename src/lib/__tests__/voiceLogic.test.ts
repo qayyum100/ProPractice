@@ -9,6 +9,7 @@
  */
 
 import { VERIFIED_QUESTION_BANK, VOICE_CATEGORIES, PRIORITY_VOICE_TOPICS } from '../../data/amazonVoiceQuestionBank'
+import { BEGINNER_MCQ_BANK, BEGINNER_VOICE_TOPICS } from '../../data/amazonVoiceBeginnerBank'
 import { CALL_FLOW_SCENARIOS } from '../../data/amazonVoiceScenarios'
 import { VoiceCategoryKey } from '../../types/amazonVoice'
 
@@ -169,6 +170,40 @@ export function runVoiceTestSuite(): { passed: number; failed: number; errors: s
         `Topic "${topic.title}" (#${topic.number}) has at least 5 matching questions (found ${matchingQuestions.length})`
       )
     }
+  })
+
+  // Test 7: Voice Process Beginner MCQs Bank Integrity (What, How, Which & When questions)
+  assert(
+    Array.isArray(BEGINNER_VOICE_TOPICS) && BEGINNER_VOICE_TOPICS.length === 8,
+    'BEGINNER_VOICE_TOPICS defines all 8 core voice process concept areas'
+  )
+
+  assert(
+    Array.isArray(BEGINNER_MCQ_BANK) && BEGINNER_MCQ_BANK.length >= 48,
+    `BEGINNER_MCQ_BANK contains at least 48 foundational MCQs (found ${BEGINNER_MCQ_BANK.length})`
+  )
+
+  BEGINNER_VOICE_TOPICS.forEach((topic) => {
+    const topicQuestions = BEGINNER_MCQ_BANK.filter((q) => q.topicId === topic.id)
+    assert(
+      topicQuestions.length >= 6,
+      `Beginner topic "${topic.title}" (#${topic.number}) has at least 6 basic MCQs (found ${topicQuestions.length})`
+    )
+  })
+
+  BEGINNER_MCQ_BANK.forEach((q) => {
+    assert(Boolean(q.id && q.id.startsWith('beg-')), `Beginner question ${q.id} has valid ID prefix`)
+    assert(
+      Boolean(q.question && (q.question.startsWith('What') || q.question.startsWith('How') || q.question.startsWith('Which') || q.question.startsWith('When') || q.question.startsWith('Can'))),
+      `Beginner question ${q.id} uses foundational phrasing: "${q.question.slice(0, 30)}..."`
+    )
+    assert(Array.isArray(q.options) && q.options.length >= 4, `Beginner question ${q.id} has 4 options`)
+    assert(
+      q.options.some((opt) => opt.id === q.correctAnswerId),
+      `Beginner question ${q.id} correct answer exists in options`
+    )
+    assert(Boolean(q.explanation && q.explanation.length > 20), `Beginner question ${q.id} has explanatory text`)
+    assert(Boolean(q.keyTakeaway && q.keyTakeaway.length > 10), `Beginner question ${q.id} has key takeaway`)
   })
 
   console.log(`--- Unit Tests Finished: ${passed} Passed, ${failed} Failed ---`)

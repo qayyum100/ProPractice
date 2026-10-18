@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { Container } from '../components/layout/Container'
 import { VOICE_CATEGORIES, VERIFIED_QUESTION_BANK, PRIORITY_VOICE_TOPICS } from '../data/amazonVoiceQuestionBank'
 import { VoiceCategoryCard } from '../components/amazonVoice/VoiceCategoryCard'
@@ -33,7 +34,8 @@ import {
   CreditCard,
   Crown,
   Target,
-  ArrowRight
+  ArrowRight,
+  BookOpen
 } from 'lucide-react'
 
 type PageViewMode = 'dashboard' | 'active_quiz' | 'results' | 'simulator'
@@ -323,6 +325,14 @@ export const AmazonVoiceQuizPage: React.FC = () => {
 
               {/* Action Buttons */}
               <div className="flex flex-wrap items-center gap-3 z-10 shrink-0">
+                <Link
+                  to="/voice-beginner-mcqs"
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl border border-cyan-500/40 text-xs font-bold text-cyan-600 dark:text-cyan-400 bg-cyan-50/50 dark:bg-cyan-950/20 hover:bg-cyan-100/60 dark:hover:bg-cyan-900/30 transition-all cursor-pointer shadow-2xs"
+                >
+                  <BookOpen className="w-4 h-4 text-cyan-500" />
+                  <span>Beginner MCQs</span>
+                </Link>
+
                 <button
                   type="button"
                   onClick={() => setViewMode('simulator')}
