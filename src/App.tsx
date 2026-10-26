@@ -28,6 +28,7 @@ const ProfilePage = React.lazy(() => import('./pages/ProfilePage').then(module =
 const DeveloperCodePracticePage = React.lazy(() => import('./pages/DeveloperCodePracticePage').then(module => ({ default: module.DeveloperCodePracticePage })))
 const AmazonVoiceQuizPage = React.lazy(() => import('./pages/AmazonVoiceQuizPage').then(module => ({ default: module.AmazonVoiceQuizPage })))
 const VoiceProcessBeginnerMCQPage = React.lazy(() => import('./pages/VoiceProcessBeginnerMCQPage').then(module => ({ default: module.VoiceProcessBeginnerMCQPage })))
+const EnglishLevelsQuizPage = React.lazy(() => import('./pages/EnglishLevelsQuizPage').then(module => ({ default: module.EnglishLevelsQuizPage })))
 const LoginPage = React.lazy(() => import('./pages/LoginPage').then(module => ({ default: module.LoginPage })))
 const SignupPage = React.lazy(() => import('./pages/SignupPage').then(module => ({ default: module.SignupPage })))
 
@@ -102,6 +103,9 @@ function App() {
                     <Route path="/amazon-voice" element={<AmazonVoiceQuizPage />} />
                     <Route path="/voice-beginner-mcqs" element={<VoiceProcessBeginnerMCQPage />} />
                     <Route path="/voice-mcqs" element={<VoiceProcessBeginnerMCQPage />} />
+                    <Route path="/english-levels" element={<EnglishLevelsQuizPage />} />
+                    <Route path="/english-quiz" element={<EnglishLevelsQuizPage />} />
+                    <Route path="/learn-english" element={<EnglishLevelsQuizPage />} />
                     <Route path="/code-practice" element={<DeveloperCodePracticePage />} />
                     <Route path="/result" element={<SessionResultPage />} />
                     <Route path="/assessment" element={<AssessmentPage />} />

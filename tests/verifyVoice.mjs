@@ -9,12 +9,21 @@ async function run() {
 
   try {
     const { runVoiceTestSuite } = await server.ssrLoadModule('/src/lib/__tests__/voiceLogic.test.ts')
-    const result = runVoiceTestSuite()
+    const voiceResult = runVoiceTestSuite()
+
+    const { runEnglishTestSuite } = await server.ssrLoadModule('/src/lib/__tests__/englishLogic.test.ts')
+    const englishResult = runEnglishTestSuite()
+
+    const totalPassed = voiceResult.passed + englishResult.passed
+    const totalFailed = voiceResult.failed + englishResult.failed
+
     console.log(`\n========================================`)
-    console.log(`TEST RESULTS: ${result.passed} Passed, ${result.failed} Failed`)
+    console.log(`COMBINED TEST RESULTS: ${totalPassed} Passed, ${totalFailed} Failed`)
+    console.log(`Voice Process Suite: ${voiceResult.passed} Passed, ${voiceResult.failed} Failed`)
+    console.log(`English Levels Suite: ${englishResult.passed} Passed, ${englishResult.failed} Failed`)
     console.log(`========================================\n`)
 
-    if (result.failed > 0) {
+    if (totalFailed > 0) {
       process.exit(1)
     }
   } catch (err) {

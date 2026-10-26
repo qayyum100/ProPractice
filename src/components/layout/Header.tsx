@@ -76,6 +76,7 @@ export const Header: React.FC = () => {
   ]
 
   const extraMobileLinks = [
+    { label: 'English Levels', path: '/english-levels', icon: <BookOpen className="w-4 h-4 text-blue-500" /> },
     { label: 'Beginner MCQs', path: '/voice-beginner-mcqs', icon: <BookOpen className="w-4 h-4 text-cyan-500" /> },
     { label: 'Custom Tests', path: '/custom-tests', icon: <Code2 className="w-4 h-4" /> },
     { label: 'Dashboard', path: '/dashboard', icon: <LayoutDashboard className="w-4 h-4" /> },

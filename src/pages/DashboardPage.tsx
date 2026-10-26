@@ -75,6 +75,11 @@ export const DashboardPage: React.FC = () => {
                 Voice Training
               </Button>
             </Link>
+            <Link to="/english-levels">
+              <Button size="md" variant="secondary" icon={<BookOpen className="w-4 h-4 text-blue-500" />}>
+                English Levels
+              </Button>
+            </Link>
             <Link to="/practice">
               <Button size="md" variant="primary" icon={<Zap className="w-4 h-4" />}>
                 Quick Practice
